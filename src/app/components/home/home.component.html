@@ -1,0 +1,49 @@
+<div *ngIf="lastCompetitions.length" class="competitions">
+  <h4>
+    Last viewed competitions:
+  </h4>
+
+  <div *ngFor='let competition of lastCompetitions'>
+    <a [routerLink]="['/competitions', competition.id]">{{competition.caption}}</a>
+  </div>
+</div>
+
+
+<div *ngIf="competitions.length" class="competitions">
+  <h4>
+    Competitions:
+  </h4>
+
+  <div *ngFor='let competition of competitions'>
+    <a [routerLink]="['/competitions', competition.id]">{{competition.caption}}</a>
+  </div>
+</div>
+
+<div>
+  Sort by:
+  <label>Date
+    <input type="radio" [checked]="isCheched('date')" (change)="onSortChange('date')" />
+  </label>
+
+  <label>League
+    <input type="radio" [checked]="isCheched('league')" (change)="onSortChange('league')" />
+  </label>
+</div>
+
+
+<div class="home">
+  <h4>Schedule for {{homeData.timeFrameStart}} - {{homeData.timeFrameEnd}}</h4>
+
+  <div *ngFor='let match of homeData.fixtures, let i = index;'>
+    <h5 *ngIf="isNewCompetition(match, i)">
+      {{ vocablurary[match._links.competition.id] }}
+    </h5>
+
+    {{ match.date | appDate: 'full' }} {{ match.status }}
+    <a [routerLink]="['/teams', match._links.homeTeam.id]">{{match.homeTeamName}}</a> -
+    <a [routerLink]="['/teams', match._links.awayTeam.id]">{{match.awayTeamName}}</a>
+    <a [routerLink]="['/history', match._links.self.id]">history</a>
+  </div>
+</div>
+
+<!-- TODO Implement previous 2 matches result and Name of a competition -->

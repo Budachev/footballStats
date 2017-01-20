@@ -1,0 +1,16 @@
+<h3>{{team.name}}</h3>
+<img [src]="team.crestUrl" [alt]="team.name" width="50px">
+<p>Market Value - {{team.squadMarketValue}}</p>
+<a [routerLink]="['/players', team.teamId]">Players</a>
+<ol>
+  <li *ngFor='let game of team.games'>    
+    <span *ngIf="game.status === 'FINISHED'">
+      <span game-title [game]="game"></span> 
+      <a [routerLink]="['/history', game._links.self.id]">history</a>
+    </span>
+
+    <span *ngIf="game.status !== 'FINISHED'">    
+      {{game.homeTeamName}} - {{game.awayTeamName}} {{game.date | appDate: 'full'}}  
+    </span>
+  </li>
+</ol>
