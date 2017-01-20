@@ -1,0 +1,23 @@
+# language setting
+language: node_js
+
+# version numbers, testing against two versions of node
+node_js:
+    - 6.9.4
+
+branches:
+  only:
+    - master
+
+script: ls
+
+after_success :
+    - npm install --unsafe-perm  -g angular-cli
+    - rsync -az ./src stark@foot.onjs.net:~/dev/foot-ui
+    - rsync -az ./package.json stark@foot.onjs.net:~/dev/foot-ui/package.json
+    - rsync -az ./angular-cli.json stark@foot.onjs.net:~/dev/foot-ui/angular-cli.json
+    - ssh -t -t stark@foot.onjs.net 'cd ./dev/foot-ui; /home/stark/.nvm/versions/node/v6.9.4/bin/npm install'
+    - ssh -t -t stark@foot.onjs.net 'cd ./dev/foot-ui; /home/stark/.nvm/versions/node/v6.9.4/bin/ng build'
+    - rsync -az ./server stark@foot.onjs.net:~/dev/foot-ui-server
+    #- ssh -t -t stark@foot.onjs.net 'cd ./dev/foot-ui-server; /home/stark/.nvm/versions/node/v6.9.4/bin/pm2 restart foot'
+    - ls
