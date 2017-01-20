@@ -1,9 +1,9 @@
 const axios = require('axios');
 const express = require('express');
-
+const config = require('./config.json');
 const app = express();
 
-const token = '';
+const token = config.apiKey;
 
 let competitions;
 

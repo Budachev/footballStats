@@ -1,3 +1,3 @@
 export const config = {
-    APIUrl : 'http://localhost:3000'
+    APIUrl :  location.protocol+'//'+location.hostname+ ':3000'
 };
