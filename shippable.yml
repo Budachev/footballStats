@@ -19,6 +19,6 @@ after_success :
     - ssh -t -t stark@foot.onjs.net 'cd ./dev/foot-ui; /home/stark/.nvm/versions/node/v6.9.4/bin/npm install'
     - ssh -t -t stark@foot.onjs.net 'cd ./dev/foot-ui; /home/stark/.nvm/versions/node/v6.9.4/bin/ng build'
     - rsync -az ./server stark@foot.onjs.net:~/dev/foot-ui-server
-    - ssh -t -t stark@foot.onjs.net 'cd ./dev/foot-ui-server; npm install'
+    - ssh -t -t stark@foot.onjs.net 'cd ./dev/foot-ui-server; /home/stark/.nvm/versions/node/v6.9.4/bin/npm install'
     - ssh -t -t stark@foot.onjs.net '/home/stark/.nvm/versions/node/v6.9.4/bin/pm2 restart foot'
     - ls
