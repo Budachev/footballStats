@@ -52,3 +52,24 @@ body {
 .clearfix {
 	clear: both;
 }
+
+
+.circle > span {
+	border-radius: 50%;
+	display: inline-block;
+	height: 30px;
+	width: 30px;
+	text-align: center;
+	line-height: 30px;
+	color: white;
+}
+
+.red {
+	background: red;
+}
+.green {
+	background: green;
+}
+.blue {
+	background: blue;
+}

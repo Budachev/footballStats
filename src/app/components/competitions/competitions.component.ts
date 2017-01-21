@@ -22,7 +22,7 @@ export class Competitions implements OnInit {
       const data = val['competition'].json();
       const fixtures = val['fixtures'].json();
       // TODO create component for fixtures (matches) and mapper with result (win/lose)
-      this.fixtures = fixtures;
+      this.fixtures = fixtures.fixtures;
 
       if (data.standings) {
         this.groups = true;
@@ -31,7 +31,8 @@ export class Competitions implements OnInit {
       } else {
         this.leagueCaption = data.leagueCaption;
         this.data = data;
-        this.table = data.standing;
+        this.table = this.standingsMapper(data.standing, this.fixtures);
+        console.log(this.table)
       }
 
       //console.log(this.table)
@@ -48,7 +49,7 @@ export class Competitions implements OnInit {
   selectedDay: number = null;
   leagueCaption = '';
   dayOptions = [];
-  fixtures = {};
+  fixtures = [];
   table: any[] = [];
   selectedMatchDay = [];
   groups: boolean = false
@@ -65,6 +66,43 @@ export class Competitions implements OnInit {
     }
     
     console.log("Competitions");
+  }
+  
+  standingsMapper(standings, fixtures){
+    
+    return standings.map(stand => {
+      let temp = [];
+    
+      fixtures.forEach(fixture => {
+        if( fixture.status === 'FINISHED' && (fixture.awayTeamName === stand.teamName || fixture.homeTeamName === stand.teamName) ){
+          temp.push(fixture);
+        }
+      });
+      
+      let lastGames = temp.length > 5 ? temp.splice(-5) : temp;
+
+      lastGames = lastGames.map(s => {
+        let winner;
+
+        if(s.result.goalsHomeTeam === s.result.goalsAwayTeam){
+          winner = 'draw'
+        } else {
+          winner = s.result.goalsHomeTeam > s.result.goalsAwayTeam ? 'homeTeamName' : 'awayTeamName';
+          
+          if(stand.teamName === s[winner]){
+            winner = true;
+          } else {
+            winner = false;
+          }
+        } 
+        
+        s.winner = winner;
+        return s;
+      })
+
+      stand.lastGames = lastGames;
+      return stand;
+    });
   }
 
   saveCompetition(id) {

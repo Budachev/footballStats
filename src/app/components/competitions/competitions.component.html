@@ -8,18 +8,32 @@
       <td>wins</td>
       <td>draws</td>
       <td>losses</td>
+      <td>Last games</td>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor='let team of table'>
       <td>
-        <img src="{{team.crestURI}}" onerror="this.src='/assets/images/default.jpg'" width="50px" [alt]="team.teamName"></td>
+        <img src="{{team.crestURI}}" onerror="this.src='/assets/images/default.jpg'" width="50px" [alt]="team.teamName">
+      </td>
       <td><a [routerLink]="['/teams', team.id]">{{team.teamName}}</a></td>
       <td>{{team.points}}</td>
       <td>{{team.wins}}</td>
       <td>{{team.draws}}</td>
       <td>{{team.losses}}</td>
-</tr>
+      <td>
+        <span *ngFor='let game of team.lastGames' >
+          <span 
+            class="circle"
+            title="{{game.homeTeamName}} - {{game.awayTeamName}} {{game.result.goalsHomeTeam}}:{{game.result.goalsAwayTeam}}"
+          >
+             <span *ngIf="game.winner === false" class="green">W</span>
+             <span *ngIf="game.winner === true" class="red">L</span>
+             <span *ngIf="game.winner === 'draw'" class="blue">D</span>
+          </span>          
+        </span>
+      </td>
+  </tr>
 </tbody>
 </table>
 <div class="fl">
@@ -84,7 +98,7 @@
 </div>
 
 <ol>
-  <li *ngFor='let game of fixtures.fixtures'>
+  <li *ngFor='let game of fixtures'>
     <span *ngIf="game.status === 'FINISHED'">
       <span game-title [game]="game"></span>
     <!--<a [routerLink]="['/history', match._links.self.id]">history</a>-->
