@@ -87,16 +87,17 @@ export class Competitions implements OnInit {
         if(s.result.goalsHomeTeam === s.result.goalsAwayTeam){
           winner = 'draw'
         } else {
-          winner = s.result.goalsHomeTeam > s.result.goalsAwayTeam ? 'homeTeamName' : 'awayTeamName';
-          
-          if(stand.teamName === s[winner]){
+          let winnerName = s.result.goalsHomeTeam < s.result.goalsAwayTeam ? 'homeTeamName' : 'awayTeamName';
+          // TODO somesing wrong with calculation of winner
+          if(stand.teamName === s[winnerName]){
             winner = true;
           } else {
             winner = false;
           }
         } 
         
-        s.winner = winner;
+        s.result.winner = winner;
+
         return s;
       })
 

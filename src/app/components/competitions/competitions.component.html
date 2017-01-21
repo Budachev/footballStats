@@ -27,9 +27,9 @@
             class="circle"
             title="{{game.homeTeamName}} - {{game.awayTeamName}} {{game.result.goalsHomeTeam}}:{{game.result.goalsAwayTeam}}"
           >
-             <span *ngIf="game.winner === false" class="green">W</span>
-             <span *ngIf="game.winner === true" class="red">L</span>
-             <span *ngIf="game.winner === 'draw'" class="blue">D</span>
+             <span *ngIf="game.result.winner === true" class="green">W</span>
+             <span *ngIf="game.result.winner === false" class="red">L</span>
+             <span *ngIf="game.result.winner === 'draw'" class="blue">D</span>
           </span>          
         </span>
       </td>
