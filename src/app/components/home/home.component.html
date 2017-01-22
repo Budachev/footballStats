@@ -32,17 +32,22 @@
 
 
 <div class="home">
-  <h4>Schedule for {{homeData.timeFrameStart}} - {{homeData.timeFrameEnd}}</h4>
+  <h4>Schedule for {{homeData.timeFrameStart | appDate}} - {{homeData.timeFrameEnd | appDate}}</h4>
 
-  <div *ngFor='let match of homeData.fixtures, let i = index;'>
-    <h5 *ngIf="isNewCompetition(match, i)">
-      {{ vocablurary[match._links.competition.id] }}
+  <div *ngFor='let game of homeData.fixtures, let i = index;'>
+    <h5 *ngIf="isNewCompetition(game, i)">
+      {{ vocablurary[game._links.competition.id] }}
     </h5>
 
-    {{ match.date | appDate: 'full' }} {{ match.status }}
-    <a [routerLink]="['/teams', match._links.homeTeam.id]">{{match.homeTeamName}}</a> -
-    <a [routerLink]="['/teams', match._links.awayTeam.id]">{{match.awayTeamName}}</a>
-    <a [routerLink]="['/history', match._links.self.id]">history</a>
+    {{ game.date | appDate: 'full' }} {{ game.status }}
+    
+    <a [routerLink]="['/teams', game._links.homeTeam.id]">{{game.homeTeamName}}</a> -
+    <a [routerLink]="['/teams', game._links.awayTeam.id]">{{game.awayTeamName}}</a>
+    <span *ngIf="game.status === 'IN_PLAY'">  
+       {{game.result.goalsHomeTeam}} : {{game.result.goalsAwayTeam}}
+    </span>
+    
+    <a [routerLink]="['/history', game._links.self.id]">history</a>
   </div>
 </div>
 

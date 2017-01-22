@@ -5,6 +5,7 @@ import { Http, Response, Headers, RequestOptions } from "@angular/http";
 import 'rxjs/Rx';
 
 import { CompetitionsService } from '../../services/competitions.service';
+import competitionMapper from '../../mappers/competitions.mapper';
 
 @Component({
   selector: 'app-home',
@@ -31,7 +32,7 @@ export class Competitions implements OnInit {
       } else {
         this.leagueCaption = data.leagueCaption;
         this.data = data;
-        this.table = this.standingsMapper(data.standing, this.fixtures);
+        this.table = competitionMapper.standingsMapper(data.standing, this.fixtures);
         console.log(this.table)
       }
 
@@ -68,43 +69,7 @@ export class Competitions implements OnInit {
     console.log("Competitions");
   }
   
-  standingsMapper(standings, fixtures){
-    
-    return standings.map(stand => {
-      let temp = [];
-    
-      fixtures.forEach(fixture => {
-        if( fixture.status === 'FINISHED' && (fixture.awayTeamName === stand.teamName || fixture.homeTeamName === stand.teamName) ){
-          temp.push(fixture);
-        }
-      });
-      
-      let lastGames = temp.length > 5 ? temp.splice(-5) : temp;
-
-      lastGames = lastGames.map(s => {
-        let winner;
-
-        if(s.result.goalsHomeTeam === s.result.goalsAwayTeam){
-          winner = 'draw'
-        } else {
-          let winnerName = s.result.goalsHomeTeam < s.result.goalsAwayTeam ? 'homeTeamName' : 'awayTeamName';
-          // TODO somesing wrong with calculation of winner
-          if(stand.teamName === s[winnerName]){
-            winner = true;
-          } else {
-            winner = false;
-          }
-        } 
-        
-        s.result.winner = winner;
-
-        return s;
-      })
-
-      stand.lastGames = lastGames;
-      return stand;
-    });
-  }
+  
 
   saveCompetition(id) {
     let list: any = localStorage.getItem('lastCompetitions');

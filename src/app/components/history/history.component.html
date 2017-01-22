@@ -1,37 +1,37 @@
 <div *ngIf="data.fixture">
   <h3>Game: </h3>
-  <h4>{{data.fixture.homeTeamName}} - {{data.fixture.awayTeamName}} {{data.fixture.date | date: 'short'}}</h4>
+  <h4>{{data.fixture.homeTeamName}} - {{data.fixture.awayTeamName}} {{data.fixture.date | appDate: 'full'}}</h4>
   <p>Odds: Home win -{{data.fixture.odds.homeWin}}, draw - {{data.fixture.odds.draw}}, away win - {{data.fixture.odds.awayWin}}</p>
   <p>Home team wins - {{data.head2head.homeTeamWins}}, away team wins - {{data.head2head.awayTeamWins}}, draws - {{data.head2head.draws}}</p>
   <h3>Previous games: </h3>
 
   <div *ngIf="data.head2head.lastHomeWinHomeTeam">
     <h3>last Home Win {{data.fixture.homeTeamName}}</h3>
-    {{data.head2head.lastHomeWinHomeTeam.date | date:'short'}}
+    {{data.head2head.lastHomeWinHomeTeam.date | appDate: 'full'}}
     <span game-title [game]="data.head2head.lastHomeWinHomeTeam"></span>
   </div>
 
   <div *ngIf="data.head2head.lastWinHomeTeam">
     <h3>Last win {{data.fixture.homeTeamName}}</h3>
-    {{data.head2head.lastWinHomeTeam.date | date:'short'}}
+    {{data.head2head.lastWinHomeTeam.date | appDate: 'full'}}
     <span game-title [game]="data.head2head.lastWinHomeTeam"></span>
   </div>
 
   <div *ngIf="data.head2head.lastAwayWinAwayTeam">
     <h3>last Away Win {{data.fixture.awayTeamName}}</h3>
-    {{data.head2head.lastAwayWinAwayTeam.date | date:'short'}}
+    {{data.head2head.lastAwayWinAwayTeam.date | appDate: 'full'}}
     <span game-title [game]="data.head2head.lastAwayWinAwayTeam"></span>
   </div>
 
   <div *ngIf="data.head2head.lastWinAwayTeam">
     <h3>last Win {{data.fixture.awayTeamName}}</h3>
-    {{data.head2head.lastWinAwayTeam.date | date:'short'}}
+    {{data.head2head.lastWinAwayTeam.date | appDate: 'full'}}
     <span game-title [game]="data.head2head.lastWinAwayTeam"></span>
   </div>
 
   <ol>
     <li *ngFor='let game of data.head2head.fixtures'>
-      {{game.date | date: 'short'}}
+      {{game.date | appDate: 'full'}}
       <span game-title [game]="game"></span>
     </li>
   </ol>

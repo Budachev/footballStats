@@ -2,10 +2,11 @@
 <table *ngIf="!groups" class="fl">
   <thead>
     <tr>
-      <td>img</td>
-      <td>title</td>
+      <td></td>
+      <td>Club</td>
+      <td>Played</td>
       <td>points</td>
-      <td>wins</td>
+      <td>Won</td>
       <td>draws</td>
       <td>losses</td>
       <td>Last games</td>
@@ -14,10 +15,11 @@
   <tbody>
     <tr *ngFor='let team of table'>
       <td>
-        <img src="{{team.crestURI}}" onerror="this.src='/assets/images/default.jpg'" width="50px" [alt]="team.teamName">
-      </td>
+        <img src="{{team.crestURI}}" onerror="this.src='/assets/images/default.jpg'" width="30px" [alt]="team.teamName">
+      </td>      
       <td><a [routerLink]="['/teams', team.id]">{{team.teamName}}</a></td>
-      <td>{{team.points}}</td>
+      <td>{{team.playedGames}}</td>
+      <td><strong>{{team.points}}</strong></td>
       <td>{{team.wins}}</td>
       <td>{{team.draws}}</td>
       <td>{{team.losses}}</td>
@@ -60,7 +62,7 @@
       <tbody>
         <tr *ngFor='let team of selectedMatchDay'>
           <td>
-            <img src="{{team.crestURI}}" onerror="this.src='/assets/images/default.jpg'" width="50px" [alt]="team.teamName"></td>
+            <img src="{{team.crestURI}}" onerror="this.src='/assets/images/default.jpg'" width="30px" [alt]="team.teamName"></td>
           <td><a [routerLink]="['/teams', team.id]">{{team.teamName}}</a></td>
           <td>{{team.points}}</td>
           <td>{{team.wins}}</td>
@@ -101,12 +103,17 @@
   <li *ngFor='let game of fixtures'>
     <span *ngIf="game.status === 'FINISHED'">
       <span game-title [game]="game"></span>
-    <!--<a [routerLink]="['/history', match._links.self.id]">history</a>-->
+    
     </span>
 
     <span *ngIf="game.status !== 'FINISHED'">   
       {{game.homeTeamName}} - {{game.awayTeamName}} 
       <span>{{game.date | appDate: 'full'}}</span> <span>{{game.status}}</span>
+       <span *ngIf="game.status === 'IN_PLAY'">  
+         {{game.result.goalsHomeTeam}}: {{game.result.goalsAwayTeam}}
+       </span>
     </span>
+
+    <a [routerLink]="['/history', game._links.self.id]">history</a>
   </li>
 </ol>
