@@ -1,4 +1,4 @@
-![https://api.shippable.com/projects/5881efd2384d1f100095bc45/badge?branch=master](Build status)
+![Build status](https://api.shippable.com/projects/5881efd2384d1f100095bc45/badge?branch=master)
 
 # TodoApp
 
