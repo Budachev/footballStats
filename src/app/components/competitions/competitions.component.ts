@@ -5,6 +5,7 @@ import { Http, Response, Headers, RequestOptions } from "@angular/http";
 import 'rxjs/Rx';
 
 import { CompetitionsService } from '../../services/competitions.service';
+import competitionMapper from '../../mappers/competitions.mapper';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +23,7 @@ export class Competitions implements OnInit {
       const data = val['competition'].json();
       const fixtures = val['fixtures'].json();
       // TODO create component for fixtures (matches) and mapper with result (win/lose)
-      this.fixtures = fixtures;
+      this.fixtures = fixtures.fixtures;
 
       if (data.standings) {
         this.groups = true;
@@ -31,7 +32,8 @@ export class Competitions implements OnInit {
       } else {
         this.leagueCaption = data.leagueCaption;
         this.data = data;
-        this.table = data.standing;
+        this.table = competitionMapper.standingsMapper(data.standing, this.fixtures);
+        console.log(this.table)
       }
 
       //console.log(this.table)
@@ -48,7 +50,7 @@ export class Competitions implements OnInit {
   selectedDay: number = null;
   leagueCaption = '';
   dayOptions = [];
-  fixtures = {};
+  fixtures = [];
   table: any[] = [];
   selectedMatchDay = [];
   groups: boolean = false
@@ -66,6 +68,8 @@ export class Competitions implements OnInit {
     
     console.log("Competitions");
   }
+  
+  
 
   saveCompetition(id) {
     let list: any = localStorage.getItem('lastCompetitions');

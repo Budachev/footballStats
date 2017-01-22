@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
       .subscribe(val => {
         this.homeData = val['home'].json();
 
-       this.sortFixtures();
+        this.sortFixtures();
 
         this.allCompetitions = val['competitions'].json();
 
@@ -81,17 +81,17 @@ export class HomeComponent implements OnInit {
     this.filter = val;
     this.sortFixtures();
   }
-  
-  sortFixtures(){
-    if(this.filter === 'league'){
+
+  sortFixtures() {
+    if (this.filter === 'league') {
       this.homeData.fixtures = this.homeData.fixtures.sort((prev, curr) => prev._links.competition.id - curr._links.competition.id);
-    } else if(this.filter === 'date'){
+    } else if (this.filter === 'date') {
       this.homeData.fixtures = this.homeData.fixtures.sort((prev, curr) => {
         let date1 = new Date(prev.date);
         let date2 = new Date(curr.date);
         return date1.getTime() - date2.getTime();
       });
     }
-    
+
   }
 }

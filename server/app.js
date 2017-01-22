@@ -5,8 +5,6 @@ const app = express();
 
 const token = config.apiKey;
 
-let competitions;
-
 let instance = axios.create({
     baseURL: 'https://api.football-data.org/v1/',
     //timeout: 1000,
@@ -18,6 +16,14 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+
+function errorHandler(err, res) {
+    console.log(err)
+    let status = err.response ? err.response.status : 500;
+    let error =  err.response ? err.response.statusText : 'Something went wrong';
+
+    res.status(status).send({ error });
+}
 
 function getLastUrlId(url) {
     const splitted = url.split('/');
@@ -38,28 +44,47 @@ app.get('/home', function (req, res) {
 
         res.send(response.data);
     })
+        .catch((err) => {
+            errorHandler(err, res);
+        });
 });
 
 app.get('/fixtures/:id', function (req, res) {
     instance.get(`fixtures/${req.params.id}`).then(response => {
         res.send(response.data);
     })
-});
+    .catch((err) => {
+        errorHandler(err, res);
+    });
+})
+
 
 app.get('/competitions/:id/fixtures', function (req, res) {
     instance.get(`competitions/${req.params.id}/fixtures/`).then(response => {
+        let fixtures = response.data.fixtures.map(game => {
+            game._links.self = {
+                id: getLastUrlId(game._links.self.href)
+            }
+            return game;
+        })
+        response.data.fixtures = fixtures;
+
         res.send(response.data);
     })
-});
+    .catch((err) => {
+        errorHandler(err, res);
+    });
+})
+
 
 app.get('/competitions', function (req, res) {
     instance.get('competitions/').then(response => {
-        if (!competitions) {
-            competitions = response.data;
-        }
         res.send(response.data);
-    })
-});
+    }).catch((err) => {
+        errorHandler(err, res);
+    });
+})
+
 
 app.get('/competitions/:id/leagueTable', function (req, res) {
     if (req.query.matchday) {
@@ -68,10 +93,14 @@ app.get('/competitions/:id/leagueTable', function (req, res) {
                 res.send(response.data);
             })
     } else {
-        instance.get(`competitions/${req.params.id}/leagueTable`)
-            .then(response => {
+        axios.all([
+            instance.get(`competitions/`),
+            instance.get(`competitions/${req.params.id}/leagueTable`)
+        ])
+            .then(axios.spread(function (competitionsResponse, tableResponse) {
+                let competitions = competitionsResponse.data;
                 let id = req.params.id;
-                let data = response.data;
+                let data = tableResponse.data;
 
                 let league = competitions.find((elem, i, arr) => {
                     return elem.id == id;
@@ -88,12 +117,13 @@ app.get('/competitions/:id/leagueTable', function (req, res) {
                         return stand;
                     })
                 }
-                res.send(response.data);
-            })
+                res.send(tableResponse.data);
+            }))
+            .catch((err) => {
+                errorHandler(err, res);
+            });
     }
-
 });
-
 
 
 app.get('/teams/:id', function (req, res) {
@@ -110,8 +140,8 @@ app.get('/teams/:id', function (req, res) {
             teamResponse.data.teamId = req.params.id;
             res.send(teamResponse.data);
         }))
-        .catch(err => {
-            console.log(err)
+        .catch((err) => {
+            errorHandler(err, res);
         });
 });
 
@@ -120,6 +150,9 @@ app.get('/players/:id', function (req, res) {
         .then(response => {
             res.send(response.data);
         })
+        .catch((err) => {
+            errorHandler(err, res);
+        });
 });
 
 app.listen(3000, function () {

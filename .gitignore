@@ -16,10 +16,9 @@ server/config.json
 .c9/
 *.launch
 .settings/
-.vscode/
 
 # IDE - VSCode
-.vscode/*
+/.vscode
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
