@@ -1,3 +1,5 @@
+![https://api.shippable.com/projects/5881efd2384d1f100095bc45/badge?branch=master](Build status)
+
 # TodoApp
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.24.
