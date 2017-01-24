@@ -1,35 +1,43 @@
-<div *ngIf="lastCompetitions.length" class="competitions">
-  <h4>
-    Last viewed competitions:
-  </h4>
+<div class="competitions">
+  <div *ngIf="lastCompetitions.length">
+    <h4>
+      Last viewed competitions:
+    </h4>
 
-  <div *ngFor='let competition of lastCompetitions'>
-    <a [routerLink]="['/competitions', competition.id]">{{competition.caption}}</a>
+    <div *ngFor='let competition of lastCompetitions'>
+      <a [routerLink]="['/competitions', competition.id]">{{competition.caption}}</a>
+    </div>
+  </div>
+
+
+  <div *ngIf="competitions.length">
+    <h4>
+      Competitions:
+    </h4>
+
+    <div *ngFor='let competition of competitions'>
+      <a [routerLink]="['/competitions', competition.id]">{{competition.caption}}</a>
+    </div>
   </div>
 </div>
 
-
-<div *ngIf="competitions.length" class="competitions">
-  <h4>
-    Competitions:
-  </h4>
-
-  <div *ngFor='let competition of competitions'>
-    <a [routerLink]="['/competitions', competition.id]">{{competition.caption}}</a>
+<div class="ui form">
+  <div class="inline fields">
+    <label>Sort by:</label>
+    <div class="field">
+      <div class="ui radio checkbox">
+        <input type="radio" [checked]="isCheched('date')" (change)="onSortChange('date')" />
+        <label>Date</label>
+      </div>
+    </div>
+    <div class="field">
+      <div class="ui radio checkbox">
+        <input type="radio" [checked]="isCheched('league')" (change)="onSortChange('league')" />
+        <label>League</label>
+      </div>
+    </div>
   </div>
 </div>
-
-<div>
-  Sort by:
-  <label>Date
-    <input type="radio" [checked]="isCheched('date')" (change)="onSortChange('date')" />
-  </label>
-
-  <label>League
-    <input type="radio" [checked]="isCheched('league')" (change)="onSortChange('league')" />
-  </label>
-</div>
-
 
 <div class="home">
   <h4>Schedule for {{homeData.timeFrameStart | appDate}} - {{homeData.timeFrameEnd | appDate}}</h4>
@@ -40,13 +48,13 @@
     </h5>
 
     {{ game.date | appDate: 'full' }} {{ game.status }}
-    
+
     <a [routerLink]="['/teams', game._links.homeTeam.id]">{{game.homeTeamName}}</a> -
     <a [routerLink]="['/teams', game._links.awayTeam.id]">{{game.awayTeamName}}</a>
     <span *ngIf="game.status === 'IN_PLAY'">  
        {{game.result.goalsHomeTeam}} : {{game.result.goalsAwayTeam}}
     </span>
-    
+
     <a [routerLink]="['/history', game._links.self.id]">history</a>
   </div>
 </div>
