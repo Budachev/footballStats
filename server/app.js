@@ -20,7 +20,7 @@ app.use(function (req, res, next) {
 function errorHandler(err, res) {
     console.log(err)
     let status = err.response ? err.response.status : 500;
-    let error =  err.response ? err.response.statusText : 'Something went wrong';
+    let error = err.response ? err.response.statusText : 'Something went wrong';
 
     res.status(status).send({ error });
 }
@@ -53,9 +53,9 @@ app.get('/fixtures/:id', function (req, res) {
     instance.get(`fixtures/${req.params.id}`).then(response => {
         res.send(response.data);
     })
-    .catch((err) => {
-        errorHandler(err, res);
-    });
+        .catch((err) => {
+            errorHandler(err, res);
+        });
 })
 
 
@@ -71,9 +71,9 @@ app.get('/competitions/:id/fixtures', function (req, res) {
 
         res.send(response.data);
     })
-    .catch((err) => {
-        errorHandler(err, res);
-    });
+        .catch((err) => {
+            errorHandler(err, res);
+        });
 })
 
 
@@ -86,42 +86,68 @@ app.get('/competitions', function (req, res) {
 })
 
 
-app.get('/competitions/:id/leagueTable', function (req, res) {
+app.get('/competitions/:id/leagueTable/', function (req, res) {
     if (req.query.matchday) {
         instance.get(`competitions/${req.params.id}/leagueTable/?matchday=${req.query.matchday}`)
             .then(response => {
                 res.send(response.data);
             })
     } else {
-        axios.all([
-            instance.get(`competitions/`),
-            instance.get(`competitions/${req.params.id}/leagueTable`)
-        ])
-            .then(axios.spread(function (competitionsResponse, tableResponse) {
-                let competitions = competitionsResponse.data;
-                let id = req.params.id;
-                let data = tableResponse.data;
+        let promise = new Promise((resolve, reject) => {
+            axios.all([
+                instance.get(`competitions/`),
+                instance.get(`competitions/${req.params.id}/leagueTable`)
+            ])
+                .then(axios.spread(function (competitionsResponse, tableResponse) {
+                    let competitions = competitionsResponse.data;
+                    let competitionId = req.params.id;
+                    let data = tableResponse.data;
 
-                let league = competitions.find((elem, i, arr) => {
-                    return elem.id == id;
+                    let league = competitions.find((elem, i, arr) => {
+                        return elem.id == competitionId;
+                    });
+
+                    if (league) {
+                        data.numberOfMatchdays = league.numberOfMatchdays;
+                        data.id = league.id;
+                    }
+
+                    if (data.standing) {
+                        data.standing = data.standing.map(stand => {
+                            stand.id = getLastUrlId(stand._links.team.href);
+                            return stand;
+                        })
+                    }
+                    resolve(tableResponse.data);
+                }))
+                .catch((err) => {
+                    errorHandler(err, res);
                 });
+        });
 
-                if (league) {
-                    data.numberOfMatchdays = league.numberOfMatchdays;
-                    data.id = league.id;
-                }
+        promise.then(result => {
+            let url = `competitions/${result.id}/leagueTable/?matchday=${result.matchday - 1}`;
 
-                if (data.standing) {
-                    data.standing = data.standing.map(stand => {
+            instance.get(url)
+                .then(response => {
+                    let prev = response.data.standing = response.data.standing.map(stand => {
                         stand.id = getLastUrlId(stand._links.team.href);
                         return stand;
+                    });
+
+                    prev.forEach(stand => {
+                        result.standing.forEach(s => {
+                            if (s.id === stand.id) {
+                                s.prevPosition = stand.position;
+                            }
+                        })
                     })
-                }
-                res.send(tableResponse.data);
-            }))
-            .catch((err) => {
-                errorHandler(err, res);
-            });
+                    res.send(result)
+                })
+        }).catch(err => {
+            console.log(err)
+        });
+
     }
 });
 

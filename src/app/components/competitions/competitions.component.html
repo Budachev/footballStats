@@ -1,11 +1,13 @@
-<h2>{{leagueCaption}}</h2>
-<table *ngIf="!groups" class="fl">
+<h2 class="ui header">{{leagueCaption}}</h2>
+<table *ngIf="!groups" class="ui selectable celled table">
   <thead>
     <tr>
+      <td>Pos</td>
       <td></td>
       <td>Club</td>
       <td>Played</td>
-      <td>points</td>
+      <td>Points</td>
+      <td><span title="Goal difference">GD</span></td>
       <td>Won</td>
       <td>draws</td>
       <td>losses</td>
@@ -15,11 +17,28 @@
   <tbody>
     <tr *ngFor='let team of table'>
       <td>
+        {{team.position}}
+
+        <span *ngIf="team.position !== team.prevPosition">
+          <span *ngIf="team.position < team.prevPosition">
+            +{{team.prevPosition - team.position}}
+          </span>
+          <span *ngIf="team.position > team.prevPosition">
+            {{team.prevPosition - team.position }}
+          </span>
+        </span>
+        <span *ngIf="team.position === team.prevPosition">
+          -
+        </span>
+      </td>
+      
+      <td>
         <img src="{{team.crestURI}}" onerror="this.src='/assets/images/default.jpg'" width="30px" [alt]="team.teamName">
       </td>      
       <td><a [routerLink]="['/teams', team.id]">{{team.teamName}}</a></td>
       <td>{{team.playedGames}}</td>
       <td><strong>{{team.points}}</strong></td>
+      <td>{{team.goalDifference}}</td>
       <td>{{team.wins}}</td>
       <td>{{team.draws}}</td>
       <td>{{team.losses}}</td>
@@ -41,13 +60,13 @@
 <div class="fl">
   Сurren match day - {{data.matchday}} of {{data.numberOfMatchdays}} total.
   <div>
-    <select [(ngModel)]="selectedDay" (change)="onChangeDay($event.target.value)">
+    <select [(ngModel)]="selectedDay" (change)="onChangeDay($event.target.value)" class="ui dropdown">
      <option *ngFor="let day of dayOptions" [value]="day">Day - {{day}}</option>
    </select>
   </div>
 
   <div *ngIf="selectedMatchDay">
-    <table *ngIf="!groups" class="fl">
+    <table *ngIf="!groups" class="ui selectable celled table">
       <thead>
         <tr>
           <td>img</td>
@@ -62,16 +81,17 @@
       <tbody>
         <tr *ngFor='let team of selectedMatchDay'>
           <td>
-            <img src="{{team.crestURI}}" onerror="this.src='/assets/images/default.jpg'" width="30px" [alt]="team.teamName"></td>
+            <img src="{{team.crestURI}}" onerror="this.src='/assets/images/default.jpg'" width="30px" [alt]="team.teamName">
+          </td>
           <td><a [routerLink]="['/teams', team.id]">{{team.teamName}}</a></td>
           <td>{{team.points}}</td>
           <td>{{team.wins}}</td>
           <td>{{team.draws}}</td>
           <td>{{team.losses}}</td>
           <td>{{team.playedGames}}</td>
-        </tr>
-</tbody>
-</table>
+       </tr>
+    </tbody>
+  </table>
 </div>
 </div>
 <div class="clearfix"></div>
@@ -99,11 +119,11 @@
   </div>
 </div>
 
+<h3>Matchweek {{data.matchday}}</h3>
 <ol>
   <li *ngFor='let game of fixtures'>
     <span *ngIf="game.status === 'FINISHED'">
-      <span game-title [game]="game"></span>
-    
+      <span game-title [game]="game"></span>    
     </span>
 
     <span *ngIf="game.status !== 'FINISHED'">   
