@@ -86,12 +86,22 @@ export class HomeComponent implements OnInit {
     if (this.filter === 'league') {
       this.homeData.fixtures = this.homeData.fixtures.sort((prev, curr) => prev._links.competition.id - curr._links.competition.id);
     } else if (this.filter === 'date') {
-      this.homeData.fixtures = this.homeData.fixtures.sort((prev, curr) => {
-        let date1 = new Date(prev.date);
-        let date2 = new Date(curr.date);
-        return date1.getTime() - date2.getTime();
-      });
+      this.homeData.fixtures = this.homeData.fixtures
+        .filter(this.fixturesFilter)
+        .sort(this.fixturesSorter);
     }
+  }
 
+  fixturesFilter(fixture) {
+    let topLeagues = [426, 430, 436, 424];
+
+    console.log('fixture', fixture._links.competition.id, fixture._links.competition, topLeagues.indexOf(fixture._links.competition.id));
+    return topLeagues.indexOf(fixture._links.competition.id) === -1;
+  }
+
+  fixturesSorter(prev, curr) {
+    let date1 = new Date(prev.date);
+    let date2 = new Date(curr.date);
+    return date1.getTime() - date2.getTime();
   }
 }
