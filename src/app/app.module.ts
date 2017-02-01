@@ -22,6 +22,8 @@ import { PlayersComponent } from './components/players/players.component';
 import { Competitions } from './components/competitions/competitions.component';
 import { HistoryComponent } from './components/history/history.component';
 import { GameTitleComponent } from './components/common/matchTitle.component';
+import { CompetitionGroup } from './components/common/competitionGroup.component';
+import { CompetitionTable } from './components/common/competitionTable.component';
 
 //DIRECTIVES
 
@@ -44,6 +46,8 @@ import { HomeResolver } from './resolvers/home.resolver';
     HistoryComponent,
     Competitions,
     GameTitleComponent,
+    CompetitionTable,
+    CompetitionGroup,
     
     //Pipes
     appDatePipe

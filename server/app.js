@@ -130,18 +130,21 @@ app.get('/competitions/:id/leagueTable/', function (req, res) {
 
             instance.get(url)
                 .then(response => {
-                    let prev = response.data.standing = response.data.standing.map(stand => {
-                        stand.id = getLastUrlId(stand._links.team.href);
-                        return stand;
-                    });
+                    if(response.data.standing){
+                        let prev = response.data.standing = response.data.standing.map(stand => {
+                            stand.id = getLastUrlId(stand._links.team.href);
+                            return stand;
+                        });
 
-                    prev.forEach(stand => {
-                        result.standing.forEach(s => {
-                            if (s.id === stand.id) {
-                                s.prevPosition = stand.position;
-                            }
+                        prev.forEach(stand => {
+                            result.standing.forEach(s => {
+                                if (s.id === stand.id) {
+                                    s.prevPosition = stand.position;
+                                }
+                            })
                         })
-                    })
+                    }
+                    
                     res.send(result)
                 })
         }).catch(err => {
