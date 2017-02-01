@@ -48,9 +48,10 @@
     </h5>
 
     {{ game.date | appDate: 'full' }} {{ game.status }}
-
+    <img [src]="game._links.homeTeam.img" alt="" width="20px">
     <a [routerLink]="['/teams', game._links.homeTeam.id]">{{game.homeTeamName}}</a> -
-    <a [routerLink]="['/teams', game._links.awayTeam.id]">{{game.awayTeamName}}</a>
+    <a [routerLink]="['/teams', game._links.awayTeam.id]">{{game.awayTeamName}}</a> 
+    <img [src]="game._links.awayTeam.img" alt="" width="20px">
     <span *ngIf="game.status === 'IN_PLAY'">  
        {{game.result.goalsHomeTeam}} : {{game.result.goalsAwayTeam}}
     </span>
