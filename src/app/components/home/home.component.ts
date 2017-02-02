@@ -23,6 +23,14 @@ export class HomeComponent implements OnInit {
       .subscribe(val => {
         this.homeData = val['home'].json();
 
+        this.homeData.fixtures = this.homeData.fixtures.map(f => {
+           let competition = this.homeData.competitions.find(c => c._links.competition.id === f._links.competition.id)
+
+           f._links.awayTeam.img = competition.standing.find(c => c.teamName === f.awayTeamName).crestURI;
+           f._links.homeTeam.img = competition.standing.find(c => c.teamName === f.homeTeamName).crestURI;
+          return f;
+        });
+
         this.sortFixtures();
 
         this.allCompetitions = val['competitions'].json();
@@ -36,7 +44,7 @@ export class HomeComponent implements OnInit {
 
   lastCompetitions: number[] = [];
   allCompetitions: any[] = [];
-  homeData = { fixtures: [] };
+  homeData = { fixtures: [],  competitions: [] };
   vocablurary: Object = {};
   competitions: any[] = [];
   table: any[] = [];

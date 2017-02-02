@@ -1,0 +1,21 @@
+<div *ngFor='let key of keys'>
+  Group <strong>{{key}}</strong> <br>
+  <table>
+    <thead>
+      <tr>
+        <td>img</td>
+        <td>title</td>
+        <td>points</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor='let team of table[key]'>
+        <td><img [src]="team.crestURI" width="50px" alt=""></td>
+        <td><a [routerLink]="['/teams', team.teamId]">{{team.team}}</a></td>
+        <td>{{team.points}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <hr>
+</div>

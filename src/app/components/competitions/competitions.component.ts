@@ -27,7 +27,6 @@ export class Competitions implements OnInit {
       if (data.standings) {
         this.groups = true;
         this.table = data.standings;
-        this.keys = Object.keys(this.table)
       } else {
         this.leagueCaption = data.leagueCaption;
         this.data = data;
@@ -51,22 +50,11 @@ export class Competitions implements OnInit {
   data: any = {};
   selectedDay: number = null;
   leagueCaption = '';
-  dayOptions = [];
   fixtures = [];
   table: any[] = [];
-  selectedMatchDay = [];
   groups: boolean = false;
-  keys = [];
 
   ngOnInit() {
-    if (this.data) {
-      this.onChangeDay(this.data.matchday);
-      this.selectedDay = this.data.matchday;
-      for (let i = 1; i <= this.data.numberOfMatchdays; i++) {
-        this.dayOptions.push(i);
-      }
-    }
-    
     console.log("Competitions");
   }
 
@@ -87,15 +75,6 @@ export class Competitions implements OnInit {
     }
 
     localStorage.setItem('lastCompetitions', JSON.stringify(list));
-  }
-
-  onChangeDay(day) {
-    if (day <= this.data.matchday) {
-      this.competitionsService.getCompetitionDay(this.data.id, day).subscribe(val => {
-        this.selectedMatchDay = val.json().standing;
-      });
-    }
-
   }
 
 }
