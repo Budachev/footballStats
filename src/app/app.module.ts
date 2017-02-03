@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { DatePipe } from '@angular/common';
+import { MaterialModule } from '@angular/material';
 
 // SERVICES
 import { TodoDataService } from './todo-data.service';
@@ -48,11 +49,12 @@ import { HomeResolver } from './resolvers/home.resolver';
     GameTitleComponent,
     CompetitionTable,
     CompetitionGroup,
-    
+
     //Pipes
     appDatePipe
   ],
   imports: [
+    MaterialModule.forRoot(),
     BrowserModule,
     FormsModule,
     HttpModule,
@@ -66,7 +68,7 @@ import { HomeResolver } from './resolvers/home.resolver';
     CompetitionsService,
 
     CompetitionsFixturesResolver,
-    CompetitionsResolver,    
+    CompetitionsResolver,
     TeamsResolver,
     PlayersResolver,
     HomeResolver,

@@ -18,7 +18,7 @@ const APP_ROUTES: Routes = [
             home: HomeResolver,
             competitions: CompetitionsResolver
         }
-    },    
+    },
     {
         path: '',
         redirectTo: '/home',

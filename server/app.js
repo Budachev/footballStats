@@ -46,28 +46,23 @@ app.get('/home', function (req, res) {
         links.competition.id = getLastUrlId(links.competition.href);
         links.self.id = getLastUrlId(links.self.href);
 
-        if (!competitions.find(c => c === links.competition.id)){
-            competitions.push(links.competition.id);
+        if (!competitions.find(c => c === links.competition.id)) {
+          competitions.push(links.competition.id);
         }
 
         return match;
       })
-      
-      let yo = competitions.map(c => instance.get(`competitions/${c}/leagueTable`));
 
-      axios.all(yo)
+      let allCompetitions = competitions.map(c => instance.get(`competitions/${c}/leagueTable`));
+
+      axios.all(allCompetitions)
         .then(axios.spread(function (...results) {
-        response.data.competitions = results.map(r => {
+          response.data.competitions = results.map(r => {
             r.data._links.competition.id = getLastUrlId(r.data._links.competition.href);
             return r.data;
-        });
-
-            console.log(res)
-            res.send(response.data);
-        }
-    ))
-      
-      
+          });
+          res.send(response.data);
+        }))
     })
     .catch((err) => {
       errorHandler(err, res);

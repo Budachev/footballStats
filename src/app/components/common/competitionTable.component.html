@@ -60,6 +60,11 @@
     <select [(ngModel)]="selectedDay" (change)="onChangeDay($event.target.value)" class="ui dropdown">
      <option *ngFor="let day of dayOptions" [value]="day">Day - {{day}}</option>
    </select>
+   <!--<md-select placeholder="Favorite food" (change)="onChangeDay($event.target.value)" >
+      <md-option *ngFor="let day of dayOptions" [value]="day">
+        Day - {{day}}
+      </md-option>
+    </md-select>-->
   </div>
   <div *ngIf="selectedMatchDay">
     <table class="ui selectable celled table">
