@@ -4,6 +4,7 @@ const config = require('./config.json');
 const app = express();
 
 const token = config.apiKey;
+let competitionsData;
 
 let instance = axios.create({
   baseURL: 'https://api.football-data.org/v1/',
@@ -46,28 +47,32 @@ app.get('/home', function (req, res) {
         links.competition.id = getLastUrlId(links.competition.href);
         links.self.id = getLastUrlId(links.self.href);
 
-        if (!competitions.find(c => c === links.competition.id)){
+        if (!competitions.find(c => c === links.competition.id)) {
+          if (links.competition.id != 432) {
             competitions.push(links.competition.id);
+          }
+
         }
 
         return match;
       })
-      
+
       let yo = competitions.map(c => instance.get(`competitions/${c}/leagueTable`));
 
-      axios.all(yo)
-        .then(axios.spread(function (...results) {
-        response.data.competitions = results.map(r => {
-            r.data._links.competition.id = getLastUrlId(r.data._links.competition.href);
-            return r.data;
-        });
+      if (competitionsData) {
+        response.data.competitions = competitionsData;
+        res.send(response.data);
+      } else {
+        axios.all(yo)
+          .then(axios.spread(function (...results) {
+            response.data.competitions = results.map(r => {
+              r.data._links.competition.id = getLastUrlId(r.data._links.competition.href);
+              return r.data;
+            });
 
-            console.log(res)
             res.send(response.data);
-        }
-    ))
-      
-      
+          }))
+      }
     })
     .catch((err) => {
       errorHandler(err, res);

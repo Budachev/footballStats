@@ -3,24 +3,19 @@
     <h4>
       Last viewed competitions:
     </h4>
-
     <div *ngFor='let competition of lastCompetitions'>
       <a [routerLink]="['/competitions', competition.id]">{{competition.caption}}</a>
     </div>
   </div>
-
-
   <div *ngIf="competitions.length">
     <h4>
       Competitions:
     </h4>
-
     <div *ngFor='let competition of competitions'>
       <a [routerLink]="['/competitions', competition.id]">{{competition.caption}}</a>
     </div>
   </div>
 </div>
-
 <div class="ui form">
   <div class="inline fields">
     <label>Sort by:</label>
@@ -38,26 +33,23 @@
     </div>
   </div>
 </div>
-
 <div class="home">
   <h4>Schedule for {{homeData.timeFrameStart | appDate}} - {{homeData.timeFrameEnd | appDate}}</h4>
-
   <div *ngFor='let game of homeData.fixtures, let i = index;'>
-    <h5 *ngIf="isNewCompetition(game, i)">
+    <!--<h5 *ngIf="isNewCompetition(game, i)">
       {{ vocablurary[game._links.competition.id] }}
-    </h5>
-
-    {{ game.date | appDate: 'full' }} {{ game.status }}
-    <img [src]="game._links.homeTeam.img" alt="" width="20px">
-    <a [routerLink]="['/teams', game._links.homeTeam.id]">{{game.homeTeamName}}</a> -
-    <a [routerLink]="['/teams', game._links.awayTeam.id]">{{game.awayTeamName}}</a> 
-    <img [src]="game._links.awayTeam.img" alt="" width="20px">
-    <span *ngIf="game.status === 'IN_PLAY'">  
-       {{game.result.goalsHomeTeam}} : {{game.result.goalsAwayTeam}}
-    </span>
-
-    <a [routerLink]="['/history', game._links.self.id]">history</a>
+    </h5>-->
+    <span *ngIf="game && game._links">
+      {{ game.date | appDate: 'full' }} {{ game.status }}    
+      <img [src]="game._links.homeTeam.img" [alt]="game.homeTeamName" width="20px">    
+        <a [routerLink]="['/teams', game._links.homeTeam.id]">{{game.homeTeamName}}</a> -
+        <a [routerLink]="['/teams', game._links.awayTeam.id]">{{game.awayTeamName}}</a> 
+        <img [src]="game._links.awayTeam.img" [alt]="game.awayTeamName" width="20px">
+        <span *ngIf="game.status === 'IN_PLAY'">  
+          {{game.result.goalsHomeTeam}} : {{game.result.goalsAwayTeam}}
+        </span>
+        <a [routerLink]="['/history', game._links.self.id]">history</a>
+    </span>    
   </div>
 </div>
-
 <!-- TODO Implement previous 2 matches result and Name of a competition -->

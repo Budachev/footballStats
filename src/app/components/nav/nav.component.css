@@ -1,0 +1,14 @@
+aside {   
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 30%;
+  z-index: 10;
+  background: #e3e3e3;
+  transition: transform .4s cubic-bezier(.25,.8,.25,1), -webkit-transform .4s cubic-bezier(.25,.8,.25,1);  
+  transform: translate3d(-130%,0,0);
+}
+aside.open {
+   transform: translate3d(0,0,0);
+}

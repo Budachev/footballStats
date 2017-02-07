@@ -24,11 +24,13 @@ export class HomeComponent implements OnInit {
         this.homeData = val['home'].json();
 
         this.homeData.fixtures = this.homeData.fixtures.map(f => {
-           let competition = this.homeData.competitions.find(c => c._links.competition.id === f._links.competition.id)
+          let competition = this.homeData.competitions.find(c => c._links.competition.id === f._links.competition.id)
+          if (competition && competition.standing) {
+            f._links.awayTeam.img = competition.standing.find(c => c.teamName === f.awayTeamName).crestURI;
+            f._links.homeTeam.img = competition.standing.find(c => c.teamName === f.homeTeamName).crestURI;
 
-           f._links.awayTeam.img = competition.standing.find(c => c.teamName === f.awayTeamName).crestURI;
-           f._links.homeTeam.img = competition.standing.find(c => c.teamName === f.homeTeamName).crestURI;
-          return f;
+            return f;
+          }
         });
 
         this.sortFixtures();
@@ -38,13 +40,12 @@ export class HomeComponent implements OnInit {
         this.allCompetitions.forEach(competition => {
           this.vocablurary[competition.id] = competition.caption;
         })
-
       });
   }
 
   lastCompetitions: number[] = [];
   allCompetitions: any[] = [];
-  homeData = { fixtures: [],  competitions: [] };
+  homeData = { fixtures: [], competitions: [] };
   vocablurary: Object = {};
   competitions: any[] = [];
   table: any[] = [];
