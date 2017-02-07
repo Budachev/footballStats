@@ -22,7 +22,7 @@ export class NavComponent implements OnInit {
   competitions = [];
 
   ngOnInit() {
-    this.competitionsService.getCompetitions(null).map(i => i.json()).subscribe(data => this.competitions = data);
+    this.competitionsService.getCompetitions().map(i => i.json()).subscribe(data => this.competitions = data);
   }
 
   ngOnDestroy(): void {

@@ -5,24 +5,26 @@ import { DebugElement } from '@angular/core';
 
 import { NavComponent } from './nav.component';
 
+import { CompetitionsService } from '../../services/competitions.service';
+import { Http, Response } from "@angular/http";
+
 describe('NavComponent', () => {
-  let component: NavComponent;
-  let fixture: ComponentFixture<NavComponent>;
+   let component: NavComponent;
+   let fixture: ComponentFixture<NavComponent>;
 
-  beforeEach(async(() => {
+   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ NavComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(NavComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+      declarations: [
+        NavComponent
+      ],
+      providers: [CompetitionsService, Http]
+    });
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  // it('should create the app', async(() => {
+  //   let fixture = TestBed.createComponent(NavComponent);
+  //   let app = fixture.debugElement.componentInstance;
+  //   expect(app).toBeTruthy();
+  // }));
+
 });

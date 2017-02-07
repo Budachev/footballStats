@@ -7,7 +7,7 @@ export class CompetitionsService {
 
   constructor(private http: Http) { }
 
-  getCompetitions(id: number) {
+  getCompetitions(id: number = null) {
     let request = `${config.APIUrl}/competitions`;
 
     if (id) {
