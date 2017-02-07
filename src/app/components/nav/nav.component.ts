@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, Renderer } from '@angular/core';
 import { HostListener } from '@angular/core';
+import { CompetitionsService } from '../../services/competitions.service';
 
 @Component({
   selector: 'app-nav',
@@ -8,10 +9,9 @@ import { HostListener } from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
-  constructor(elementRef: ElementRef, renderer: Renderer) {
+  constructor(elementRef: ElementRef, renderer: Renderer, private competitionsService: CompetitionsService) {
     this.globalListenFunc = renderer.listenGlobal('document', 'click', (event) => {
       if (this.sideNavOpen === true && event.target.innerHTML !== 'open menu' && event.srcElement.localName !== 'aside') {
-        console.log(event)
         this.closeSideNav();
       }
     })
@@ -19,10 +19,13 @@ export class NavComponent implements OnInit {
 
   sideNavOpen: Boolean = false;
   globalListenFunc: Function = null;
+  competitions = [];
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.competitionsService.getCompetitions(null).map(i => i.json()).subscribe(data => this.competitions = data);
+  }
 
-  ngOnDestroy():void {
+  ngOnDestroy(): void {
     // Removs "listenGlobal" listener
     this.globalListenFunc();
   }

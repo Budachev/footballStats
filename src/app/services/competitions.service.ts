@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from "@angular/http";
 import { config } from '../configs/app.config';
-import 'rxjs/Rx';
-
 
 @Injectable()
 export class CompetitionsService {
@@ -27,7 +25,7 @@ export class CompetitionsService {
 
   getCompetitionDay(cmpId: number, id: number) {
     let request = `${config.APIUrl}/competitions/${cmpId}/leagueTable/?matchday=${id}`;
-    
+
     return this.http.get(request)
   }
 

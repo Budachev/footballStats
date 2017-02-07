@@ -22,7 +22,7 @@ export class Competitions implements OnInit {
     this.route.data.subscribe(val => {
       const data = val['competition'].json();
       const fixtures = val['fixtures'].json();
-      // TODO create component for fixtures (matches) and mapper with result (win/lose)      
+      // TODO create component for fixtures (matches) and mapper with result (win/lose)
 
       if (data.standings) {
         this.groups = true;
@@ -31,13 +31,11 @@ export class Competitions implements OnInit {
         this.leagueCaption = data.leagueCaption;
         this.data = data;
         this.table = competitionMapper.standingsMapper(data.standing, fixtures.fixtures);
-        console.log(this.table)
       }
 
       this.fixtures = fixtures.fixtures.filter(game => {
         return game.matchday === this.data.matchday;
       });
-      //console.log(this.table)
     });
 
     this.route.params.subscribe(params => {
@@ -47,6 +45,7 @@ export class Competitions implements OnInit {
     });
 
   }
+
   data: any = {};
   selectedDay: number = null;
   leagueCaption = '';
@@ -54,9 +53,7 @@ export class Competitions implements OnInit {
   table: any[] = [];
   groups: boolean = false;
 
-  ngOnInit() {
-    console.log("Competitions");
-  }
+  ngOnInit() {}
 
   saveCompetition(id) {
     let list: any = localStorage.getItem('lastCompetitions');

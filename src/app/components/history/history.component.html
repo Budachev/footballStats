@@ -1,4 +1,4 @@
-<div *ngIf="data.fixture">
+<div *ngIf="data.fixture" class="fl">
   <h3>Game: </h3>
   <h4>{{data.fixture.homeTeamName}} - {{data.fixture.awayTeamName}} {{data.fixture.date | appDate: 'full'}}</h4>
   <p>Odds: Home win -{{data.fixture.odds.homeWin}}, draw - {{data.fixture.odds.draw}}, away win - {{data.fixture.odds.awayWin}}</p>
@@ -36,3 +36,10 @@
     </li>
   </ol>
 </div>
+
+<leagueTable 
+  style="margin-left:50px" 
+  *ngIf="table.length && data.fixture.status !== 'FINISHED'" 
+  [table]="table" 
+  [hl]="highlightTeams" 
+  class="fl"></leagueTable>

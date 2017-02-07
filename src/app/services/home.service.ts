@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from "@angular/http";
 import { config } from '../configs/app.config';
-import 'rxjs/Rx';
-
 
 @Injectable()
 export class HomeService {

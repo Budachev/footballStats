@@ -41,10 +41,10 @@
     </h5>-->
     <span *ngIf="game && game._links">
       {{ game.date | appDate: 'full' }} {{ game.status }}    
-      <img [src]="game._links.homeTeam.img" [alt]="game.homeTeamName" width="20px">    
+      <img [src]="game._links.homeTeam.img" [alt]="game.homeTeamName" width="20px" onerror="this.src='/assets/images/default.jpg'">    
         <a [routerLink]="['/teams', game._links.homeTeam.id]">{{game.homeTeamName}}</a> -
         <a [routerLink]="['/teams', game._links.awayTeam.id]">{{game.awayTeamName}}</a> 
-        <img [src]="game._links.awayTeam.img" [alt]="game.awayTeamName" width="20px">
+        <img [src]="game._links.awayTeam.img" [alt]="game.awayTeamName" width="20px" onerror="this.src='/assets/images/default.jpg'">
         <span *ngIf="game.status === 'IN_PLAY'">  
           {{game.result.goalsHomeTeam}} : {{game.result.goalsAwayTeam}}
         </span>
@@ -52,4 +52,3 @@
     </span>    
   </div>
 </div>
-<!-- TODO Implement previous 2 matches result and Name of a competition -->

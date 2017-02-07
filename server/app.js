@@ -51,19 +51,18 @@ app.get('/home', function (req, res) {
           if (links.competition.id != 432) {
             competitions.push(links.competition.id);
           }
-
         }
 
         return match;
       })
 
-      let yo = competitions.map(c => instance.get(`competitions/${c}/leagueTable`));
+      let competitionsRequests = competitions.map(c => instance.get(`competitions/${c}/leagueTable`));
 
       if (competitionsData) {
         response.data.competitions = competitionsData;
         res.send(response.data);
       } else {
-        axios.all(yo)
+        axios.all(competitionsRequests)
           .then(axios.spread(function (...results) {
             response.data.competitions = results.map(r => {
               r.data._links.competition.id = getLastUrlId(r.data._links.competition.href);
@@ -80,7 +79,10 @@ app.get('/home', function (req, res) {
 });
 
 app.get('/fixtures/:id', function (req, res) {
-  instance.get(`fixtures/${req.params.id}`).then(response => {
+  instance.get(`fixtures/${req.params.id}`).then(response => {   
+      response.data.fixture._links.competition.id = getLastUrlId(response.data.fixture._links.competition.href);
+      response.data.fixture._links.awayTeam.id = getLastUrlId(response.data.fixture._links.awayTeam.href);
+      response.data.fixture._links.homeTeam.id = getLastUrlId(response.data.fixture._links.homeTeam.href);
       res.send(response.data);
     })
     .catch((err) => {
