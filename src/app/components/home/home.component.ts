@@ -23,8 +23,15 @@ export class HomeComponent implements OnInit {
       .subscribe(val => {
         this.homeData = val['home'].json();
 
+        let filteredCompetitions = this.homeData.competitions.filter(c => c._links);
+
         this.homeData.fixtures = this.homeData.fixtures.map(f => {
-          let competition = this.homeData.competitions.find(c => c._links.competition.id === f._links.competition.id)
+          let competition;
+
+          if (f._links) {
+            competition = filteredCompetitions.find(c => c._links.competition.id === f._links.competition.id)
+          }
+
           if (competition && competition.standing) {
             f._links.awayTeam.img = competition.standing.find(c => c.teamName === f.awayTeamName).crestURI;
             f._links.homeTeam.img = competition.standing.find(c => c.teamName === f.homeTeamName).crestURI;

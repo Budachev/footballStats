@@ -65,7 +65,9 @@ app.get('/home', function (req, res) {
         axios.all(competitionsRequests)
           .then(axios.spread(function (...results) {
             response.data.competitions = results.map(r => {
-              r.data._links.competition.id = getLastUrlId(r.data._links.competition.href);
+              if (r.data._links) {
+                r.data._links.competition.id = getLastUrlId(r.data._links.competition.href);
+              }
               return r.data;
             });
 
@@ -79,7 +81,7 @@ app.get('/home', function (req, res) {
 });
 
 app.get('/fixtures/:id', function (req, res) {
-  instance.get(`fixtures/${req.params.id}`).then(response => {   
+  instance.get(`fixtures/${req.params.id}`).then(response => {
       response.data.fixture._links.competition.id = getLastUrlId(response.data.fixture._links.competition.href);
       response.data.fixture._links.awayTeam.id = getLastUrlId(response.data.fixture._links.awayTeam.href);
       response.data.fixture._links.homeTeam.id = getLastUrlId(response.data.fixture._links.homeTeam.href);
