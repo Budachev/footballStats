@@ -1,3 +1,15 @@
+<aside [class.open]="sideNavOpen">
+  <button (click)="closeSideNav()">close</button>
+  <div *ngIf="competitions.length">
+    <h4>
+      Competitions:
+    </h4>
+    <div *ngFor='let competition of competitions'>
+      <a [routerLink]="['/competitions', competition.id]">{{competition.caption}}</a>
+    </div>
+  </div>
+</aside>
 <p>
-  <a [routerLink]="['/']" [routerLinkActive]="['is-active']">Home</a>
+  <button (click)="openSideNav()">open menu</button>
+  <a [routerLink]="['/home']" [routerLinkActive]="['is-active']">Home</a>
 </p>

@@ -13,7 +13,7 @@ import { HomeService } from './services/home.service';
 
 import { routing } from './configs/nav.config';
 
-//COMPONENTS
+// COMPONENTS
 import { AppComponent } from './app.component';
 import { NavComponent } from './components/nav/nav.component';
 import { HomeComponent } from './components/home/home.component';
@@ -25,12 +25,12 @@ import { GameTitleComponent } from './components/common/matchTitle.component';
 import { CompetitionGroup } from './components/common/competitionGroup.component';
 import { CompetitionTable } from './components/common/competitionTable.component';
 
-//DIRECTIVES
+// DIRECTIVES
 
-//PIPES
+// PIPES
 import { appDatePipe } from './pipes/appDate.pipe';
 
-//RESOLVERS
+// RESOLVERS
 import { CompetitionsResolver, CompetitionsFixturesResolver } from './resolvers/competitions.resolver';
 import { TeamsResolver } from './resolvers/teams.resolver';
 import { PlayersResolver } from './resolvers/players.resolver';
@@ -48,7 +48,7 @@ import { HomeResolver } from './resolvers/home.resolver';
     GameTitleComponent,
     CompetitionTable,
     CompetitionGroup,
-    
+
     //Pipes
     appDatePipe
   ],
@@ -66,7 +66,7 @@ import { HomeResolver } from './resolvers/home.resolver';
     CompetitionsService,
 
     CompetitionsFixturesResolver,
-    CompetitionsResolver,    
+    CompetitionsResolver,
     TeamsResolver,
     PlayersResolver,
     HomeResolver,

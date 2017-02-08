@@ -3,18 +3,25 @@ import { CompetitionsService } from '../../services/competitions.service';
 
 @Component({
     selector: 'leagueTable',
-    templateUrl: 'competitionTable.component.html'
+    templateUrl: 'competitionTable.component.html',
+    styleUrls: ['competitionTable.component.scss']
 })
 export class CompetitionTable implements OnInit {
-    constructor(private competitionsService: CompetitionsService) {}
+    constructor(private competitionsService: CompetitionsService) { }
     @Input() table: any;
     @Input() data: any;
+    @Input() hl: any;
     selectedMatchDay = [];
     selectedDay: any;
     dayOptions = [];
 
+    isHighlighted(id) {
+        if (this.hl) {
+            return this.hl.includes(id);
+        }
+    }
+
     onChanges(changes) {
-        console.log('table')
         // Only update game when game has actually changed
         if (changes.hasOwnProperty('table')) {
             console.log(changes);

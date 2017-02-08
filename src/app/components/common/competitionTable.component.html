@@ -10,11 +10,11 @@
       <td>Won</td>
       <td>draws</td>
       <td>losses</td>
-      <td>Last games</td>
+      <td *ngIf="table[0].lastGames">Last games</td>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor='let team of table'>
+    <tr *ngFor='let team of table' [class.highlight]="isHighlighted(team.id)">
       <td>
         {{team.position}}
         <span *ngIf="team.position !== team.prevPosition">
@@ -39,7 +39,7 @@
       <td>{{team.wins}}</td>
       <td>{{team.draws}}</td>
       <td>{{team.losses}}</td>
-      <td>
+      <td *ngIf="team.lastGames">
         <span *ngFor='let game of team.lastGames'>
           <span 
             class="circle"
@@ -54,7 +54,8 @@
     </tr>
   </tbody>
 </table>
-<div class="fl">
+
+<div class="fl" *ngIf="selectedMatchDay.length">
   Сurren match day - {{data.matchday}} of {{data.numberOfMatchdays}} total.
   <div>
     <select [(ngModel)]="selectedDay" (change)="onChangeDay($event.target.value)" class="ui dropdown">
