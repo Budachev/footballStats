@@ -1,34 +1,35 @@
 <div *ngIf="data.fixture" class="fl">
   <h3>Game: </h3>
   <h4>{{data.fixture.homeTeamName}} - {{data.fixture.awayTeamName}} {{data.fixture.date | appDate: 'full'}}</h4>
-  <p>Odds: Home win -{{data.fixture.odds.homeWin}}, draw - {{data.fixture.odds.draw}}, away win - {{data.fixture.odds.awayWin}}</p>
+  <p *ngIf="data.fixture.odds">Odds: Home win -{{data.fixture.odds.homeWin}}, draw - {{data.fixture.odds.draw}}, away win - {{data.fixture.odds.awayWin}}</p>
   <p>Home team wins - {{data.head2head.homeTeamWins}}, away team wins - {{data.head2head.awayTeamWins}}, draws - {{data.head2head.draws}}</p>
   <h3>Previous games: </h3>
 
   <div *ngIf="data.head2head.lastHomeWinHomeTeam">
     <h3>last Home Win {{data.fixture.homeTeamName}}</h3>
-    {{data.head2head.lastHomeWinHomeTeam.date | appDate: 'full'}}
-    <span game-title [game]="data.head2head.lastHomeWinHomeTeam"></span>
+    <p>{{data.head2head.lastHomeWinHomeTeam.date | appDate: 'full'}}</p>    
+    <p game-title [game]="data.head2head.lastHomeWinHomeTeam"></p>
   </div>
 
   <div *ngIf="data.head2head.lastWinHomeTeam">
     <h3>Last win {{data.fixture.homeTeamName}}</h3>
-    {{data.head2head.lastWinHomeTeam.date | appDate: 'full'}}
-    <span game-title [game]="data.head2head.lastWinHomeTeam"></span>
+    <p>{{data.head2head.lastWinHomeTeam.date | appDate: 'full'}}</p>    
+    <p game-title [game]="data.head2head.lastWinHomeTeam"></p>
   </div>
 
   <div *ngIf="data.head2head.lastAwayWinAwayTeam">
     <h3>last Away Win {{data.fixture.awayTeamName}}</h3>
-    {{data.head2head.lastAwayWinAwayTeam.date | appDate: 'full'}}
-    <span game-title [game]="data.head2head.lastAwayWinAwayTeam"></span>
+    <p>{{data.head2head.lastAwayWinAwayTeam.date | appDate: 'full'}}</p> 
+    <p game-title [game]="data.head2head.lastAwayWinAwayTeam"></p>
   </div>
 
   <div *ngIf="data.head2head.lastWinAwayTeam">
     <h3>last Win {{data.fixture.awayTeamName}}</h3>
-    {{data.head2head.lastWinAwayTeam.date | appDate: 'full'}}
-    <span game-title [game]="data.head2head.lastWinAwayTeam"></span>
+    <p> {{data.head2head.lastWinAwayTeam.date | appDate: 'full'}}</p>
+    <p game-title [game]="data.head2head.lastWinAwayTeam"></p>
   </div>
 
+  <h3>Fixtures</h3>
   <ol>
     <li *ngFor='let game of data.head2head.fixtures'>
       {{game.date | appDate: 'full'}}
