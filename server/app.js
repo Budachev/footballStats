@@ -124,6 +124,11 @@ app.get('/competitions/:id/leagueTable/', function (req, res) {
   if (req.query.matchday) {
     instance.get(`competitions/${req.params.id}/leagueTable/?matchday=${req.query.matchday}`)
       .then(response => {
+        let standing = response.data.standing.map(item => {
+          item.id = getLastUrlId(item._links.team.href);
+          return item;
+        })
+        response.data.standing = standing;
         res.send(response.data);
       })
   } else {

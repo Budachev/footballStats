@@ -1,7 +1,7 @@
 import { HistoryComponent } from '../components/history/history.component';
 import { Routes, RouterModule } from "@angular/router";
 import { HomeComponent } from '../components/home/home.component';
-import { Competitions } from '../components/competitions/competitions.component';
+import { CompetitionsComponent } from '../components/competitions/competitions.component';
 import { TeamsComponent } from '../components/teams/teams.component';
 import { PlayersComponent } from '../components/players/players.component';
 
@@ -26,7 +26,7 @@ const APP_ROUTES: Routes = [
     },
     {
         path: 'competitions/:id',
-        component: Competitions,
+        component: CompetitionsComponent,
          resolve: {
             competition: CompetitionsResolver,
             fixtures: CompetitionsFixturesResolver

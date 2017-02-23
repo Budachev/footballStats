@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Http, Response, Headers, RequestOptions } from "@angular/http";
@@ -11,7 +11,7 @@ import { CompetitionsService } from '../../services/competitions.service';
 @Component({
     templateUrl: './history.component.html'
 })
-export class HistoryComponent implements OnInit {
+export class HistoryComponent implements OnInit, OnDestroy {
 
     constructor(
         private route: ActivatedRoute,
@@ -30,11 +30,16 @@ export class HistoryComponent implements OnInit {
     data: Object = {};
     table = [];
     highlightTeams = [];
+    subscription:any = {};
 
     ngOnInit() {
-        this.homeService.getHistory(this.id)
+        this.subscription = this.homeService.getHistory(this.id)
         .map(this.extractData)
         .subscribe(this.handleData.bind(this), this.handleError, this.handleComplete);
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
 
     handleData(data){

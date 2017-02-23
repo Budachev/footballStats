@@ -5,7 +5,6 @@ import { HttpModule } from '@angular/http';
 import { DatePipe } from '@angular/common';
 
 // SERVICES
-import { TodoDataService } from './todo-data.service';
 import { CompetitionsService } from './services/competitions.service';
 import { TeamsService } from './services/teams.service';
 import { PlayersService } from './services/players.service';
@@ -19,11 +18,11 @@ import { NavComponent } from './components/nav/nav.component';
 import { HomeComponent } from './components/home/home.component';
 import { TeamsComponent } from './components/teams/teams.component';
 import { PlayersComponent } from './components/players/players.component';
-import { Competitions } from './components/competitions/competitions.component';
+import { CompetitionsComponent } from './components/competitions/competitions.component';
 import { HistoryComponent } from './components/history/history.component';
 import { GameTitleComponent } from './components/common/matchTitle.component';
-import { CompetitionGroup } from './components/common/competitionGroup.component';
-import { CompetitionTable } from './components/common/competitionTable.component';
+import { CompetitionGroupComponent } from './components/common/competitionGroup.component';
+import { CompetitionTableComponent } from './components/common/competitionTable.component';
 
 // DIRECTIVES
 
@@ -44,12 +43,12 @@ import { HomeResolver } from './resolvers/home.resolver';
     TeamsComponent,
     PlayersComponent,
     HistoryComponent,
-    Competitions,
+    CompetitionsComponent,
     GameTitleComponent,
-    CompetitionTable,
-    CompetitionGroup,
+    CompetitionTableComponent,
+    CompetitionGroupComponent,
 
-    //Pipes
+    // Pipes
     appDatePipe
   ],
   imports: [
@@ -62,13 +61,12 @@ import { HomeResolver } from './resolvers/home.resolver';
     HomeService,
     TeamsService,
     PlayersService,
-    TodoDataService,
     CompetitionsService,
 
     CompetitionsFixturesResolver,
     CompetitionsResolver,
-    TeamsResolver,
     PlayersResolver,
+    TeamsResolver,
     HomeResolver,
     DatePipe
   ],

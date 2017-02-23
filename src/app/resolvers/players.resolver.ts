@@ -12,7 +12,7 @@ export class PlayersResolver implements Resolve<any> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     let id = route.params['id'];
-    
+
     return this.playersService.getPlayers(id);
   }
 }

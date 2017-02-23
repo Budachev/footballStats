@@ -6,7 +6,7 @@ import { SWService } from '../services/sw.service';
 @Injectable()
 export class NavResolver implements Resolve<any> {
   constructor(
-    private swService: SWService    
+    private swService: SWService
   ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
