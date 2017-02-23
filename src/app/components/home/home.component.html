@@ -56,7 +56,7 @@
       <span *ngIf="game.status === 'IN_PLAY'">  
         {{game.result.goalsHomeTeam}} : {{game.result.goalsAwayTeam}}
       </span>
-      <a [routerLink]="['/history', game._links.self.id]">history</a>        
+      <a [routerLink]="['/history', game._links.self.id]"><strong>history</strong></a>        
     </span>    
   </div>
 </div>
