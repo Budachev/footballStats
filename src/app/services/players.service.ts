@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from "@angular/http";
-import 'rxjs/Rx';
+import { Http } from '@angular/http';
 
 import { config } from '../configs/app.config';
 

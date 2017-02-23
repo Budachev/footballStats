@@ -12,7 +12,7 @@ export class TeamsResolver implements Resolve<any> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     let id = route.params['id'];
-    
+
     return this.teamService.getTeam(id);
   }
 }

@@ -12,7 +12,7 @@ import competitionMapper from '../../mappers/competitions.mapper';
   templateUrl: './competitions.component.html'
 
 })
-export class Competitions implements OnInit {
+export class CompetitionsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
@@ -46,12 +46,12 @@ export class Competitions implements OnInit {
 
   }
 
-  data: any = {};
   selectedDay: number = null;
   leagueCaption = '';
   fixtures = [];
   table: any[] = [];
-  groups: boolean = false;
+  groups: Boolean = false;
+  data: any = {};
 
   ngOnInit() {}
 
@@ -64,7 +64,7 @@ export class Competitions implements OnInit {
     }
 
     if (!list.includes(id)) {
-      list.push(parseInt(id));
+      list.push(parseInt(id, 10));
     }
 
     if (list.length > 2) {

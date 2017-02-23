@@ -6,7 +6,7 @@ import { CompetitionsService } from '../../services/competitions.service';
     templateUrl: 'competitionTable.component.html',
     styleUrls: ['competitionTable.component.scss']
 })
-export class CompetitionTable implements OnInit {
+export class CompetitionTableComponent implements OnInit {
     constructor(private competitionsService: CompetitionsService) { }
     @Input() table: any;
     @Input() data: any;

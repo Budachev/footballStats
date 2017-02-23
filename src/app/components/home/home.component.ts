@@ -1,4 +1,4 @@
-import { Competitions } from '../competitions/competitions.component';
+import { CompetitionsComponent } from '../competitions/competitions.component';
 import { ArrayObservable } from 'rxjs/observable/ArrayObservable';
 import { InlineArray } from '@angular/core/src/linker/view_utils';
 import { ArrayType } from '@angular/compiler/src/output/output_ast';
@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { Http, Response, Headers, RequestOptions } from "@angular/http";
 import { ActivatedRoute } from '@angular/router';
-import 'rxjs/Rx';
 
 import { HomeService } from '../../services/home.service';
 
@@ -61,10 +60,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     let lastIds = this.getLastCompetitions();
-    //console.log('l', lastIds, this.competitions);
+    // console.log('l', lastIds, this.competitions);
 
     this.competitions = this.allCompetitions.filter(cmp => {
-      //console.log('cmp', cmp.id, lastIds.includes(cmp.id));
+      // console.log('cmp', cmp.id, lastIds.includes(cmp.id));
       return !lastIds.includes(cmp.id);
     });
 
@@ -73,8 +72,8 @@ export class HomeComponent implements OnInit {
   }
 
   isNewCompetition(match, i) {
-    if(!match) {
-      return false
+    if (!match) {
+      return false;
     };
 
     const prev = this.homeData.fixtures[i - 1];
@@ -104,7 +103,8 @@ export class HomeComponent implements OnInit {
 
   sortFixtures() {
     if (this.filter === 'league') {
-      this.homeData.fixtures = this.homeData.fixtures.sort((prev, curr) => prev._links.competition.id - curr._links.competition.id);
+      this.homeData.fixtures =
+        this.homeData.fixtures.sort((prev, curr) => prev._links.competition.id - curr._links.competition.id);
     } else if (this.filter === 'date') {
       this.homeData.fixtures = this.homeData.fixtures.sort((prev, curr) => {
         let date1 = new Date(prev.date);
