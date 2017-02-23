@@ -73,6 +73,10 @@ export class HomeComponent implements OnInit {
   }
 
   isNewCompetition(match, i) {
+    if(!match) {
+      return false
+    };
+
     const prev = this.homeData.fixtures[i - 1];
 
     return i === 0 || (prev && match._links.competition.id !== prev._links.competition.id)
