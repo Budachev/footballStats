@@ -8,7 +8,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
     templateUrl: './teams.component.html'
 })
 export class TeamsComponent implements OnInit {
-    team = {}
+    team = {};
 
     constructor(private route: ActivatedRoute, private http: Http) {
         this.route.data.subscribe(val => {

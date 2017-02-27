@@ -11,6 +11,6 @@ export class PlayersService {
   getPlayers(id: string | number) {
     let request = `${config.APIUrl}/players/${id}`;
 
-    return this.http.get(request)
+    return this.http.get(request);
   }
 }

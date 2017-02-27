@@ -9,6 +9,6 @@ export const debounce = (func, wait, immediate = false) => {
         let callNow = immediate && !timeout;
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
-        if (callNow) {func.apply(context, args)};
+        if (callNow) {func.apply(context, args); };
     };
 };

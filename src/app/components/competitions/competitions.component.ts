@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Http, Response, Headers, RequestOptions } from "@angular/http";
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/Rx';
 
 import { CompetitionsService } from '../../services/competitions.service';
@@ -13,6 +13,12 @@ import competitionMapper from '../../mappers/competitions.mapper';
 
 })
 export class CompetitionsComponent implements OnInit {
+  selectedDay: number = null;
+  leagueCaption = '';
+  fixtures = [];
+  table: any[] = [];
+  groups: Boolean = false;
+  data: any = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -45,13 +51,6 @@ export class CompetitionsComponent implements OnInit {
     });
 
   }
-
-  selectedDay: number = null;
-  leagueCaption = '';
-  fixtures = [];
-  table: any[] = [];
-  groups: Boolean = false;
-  data: any = {};
 
   ngOnInit() {}
 

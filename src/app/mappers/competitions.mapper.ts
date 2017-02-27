@@ -1,5 +1,5 @@
 export default {
-    standingsMapper(standings, fixtures){
+    standingsMapper(standings, fixtures) {
 
     return standings.map(stand => {
       let temp = [];
@@ -17,12 +17,12 @@ export default {
       lastGames = lastGames.map(s => {
         let winner;
 
-        if(s.result.goalsHomeTeam === s.result.goalsAwayTeam){
+        if (s.result.goalsHomeTeam === s.result.goalsAwayTeam) {
           winner = 'draw';
         } else {
           let winnerName = s.result.goalsHomeTeam < s.result.goalsAwayTeam ? 'homeTeamName' : 'awayTeamName';
           // TODO somesing wrong with calculation of winner
-          if(stand.teamName === s[winnerName]){
+          if (stand.teamName === s[winnerName]) {
             winner = true;
           } else {
             winner = false;
@@ -32,7 +32,7 @@ export default {
         s.result.winner = winner;
 
         return s;
-      })
+      });
 
       stand.lastGames = lastGames;
       return stand;

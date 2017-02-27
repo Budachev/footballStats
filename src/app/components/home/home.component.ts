@@ -4,7 +4,7 @@ import { InlineArray } from '@angular/core/src/linker/view_utils';
 import { ArrayType } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 
-import { Http, Response, Headers, RequestOptions } from "@angular/http";
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { ActivatedRoute } from '@angular/router';
 
 import { HomeService } from '../../services/home.service';
@@ -15,6 +15,13 @@ import { HomeService } from '../../services/home.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  lastCompetitions: number[] = [];
+  allCompetitions: any[] = [];
+  homeData = { fixtures: [], competitions: [] };
+  vocablurary: Object = {};
+  competitions: any[] = [];
+  table: any[] = [];
+  filter = 'date';
 
   constructor(private route: ActivatedRoute, private http: Http, private homeService: HomeService) {
     this.route.data
@@ -28,7 +35,7 @@ export class HomeComponent implements OnInit {
           let competition;
 
           if (f._links) {
-            competition = filteredCompetitions.find(c => c._links.competition.id === f._links.competition.id)
+            competition = filteredCompetitions.find(c => c._links.competition.id === f._links.competition.id);
           }
 
           if (competition && competition.standing) {
@@ -45,17 +52,9 @@ export class HomeComponent implements OnInit {
 
         this.allCompetitions.forEach(competition => {
           this.vocablurary[competition.id] = competition.caption;
-        })
+        });
       });
   }
-
-  lastCompetitions: number[] = [];
-  allCompetitions: any[] = [];
-  homeData = { fixtures: [], competitions: [] };
-  vocablurary: Object = {};
-  competitions: any[] = [];
-  table: any[] = [];
-  filter = 'date';
 
 
   ngOnInit() {
@@ -78,12 +77,10 @@ export class HomeComponent implements OnInit {
 
     const prev = this.homeData.fixtures[i - 1];
 
-    return i === 0 || (prev && match._links.competition.id !== prev._links.competition.id)
+    return i === 0 || (prev && match._links.competition.id !== prev._links.competition.id);
   }
 
-  getHistory(match) {
-
-  }
+  getHistory(match) {}
 
   getLastCompetitions(): any {
     let list: any = localStorage.getItem('lastCompetitions');

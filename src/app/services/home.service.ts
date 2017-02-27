@@ -9,11 +9,11 @@ export class HomeService {
 
     getHomeData() {
         let request = `${config.APIUrl}/home`;
-        return this.http.get(request)
+        return this.http.get(request);
     }
 
-    getHistory(id){
+    getHistory(id) {
         let request = `${config.APIUrl}/fixtures/${id}`;
-        return this.http.get(request)
+        return this.http.get(request);
     }
 }
