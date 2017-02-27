@@ -1,4 +1,4 @@
-<div class="competitions">
+<div class="competitions hidden-xs">
   <div *ngIf="lastCompetitions.length">
     <h4>
       Last viewed competitions:
@@ -20,15 +20,19 @@
   <div class="inline fields">
     <label>Sort by:</label>
     <div class="field">
-      <div class="ui radio checkbox">
-        <input type="radio" [checked]="isCheched('date')" (change)="onSortChange('date')" />
-        <label>Date</label>
+      <div>        
+        <label>
+          <input type="radio" [checked]="isCheched('date')" (change)="onSortChange('date')" />
+          Date
+        </label>
       </div>
     </div>
     <div class="field">
-      <div class="ui radio checkbox">
-        <input type="radio" [checked]="isCheched('league')" (change)="onSortChange('league')" />
-        <label>League</label>
+      <div>        
+        <label>
+          <input type="radio" [checked]="isCheched('league')" (change)="onSortChange('league')" />
+          League
+        </label>
       </div>
     </div>
   </div>
@@ -36,28 +40,32 @@
 <div class="home">
   <h4>Schedule for {{homeData.timeFrameStart | appDate}} - {{homeData.timeFrameEnd | appDate}}</h4>
   <div *ngFor='let game of homeData.fixtures, let i = index;'>
-    <h5 *ngIf="isNewCompetition(game, i)">
+    <h5 *ngIf="isNewCompetition(game, i)" class="row">
       {{ vocablurary[game._links.competition.id] }}
     </h5>
-    <span *ngIf="game && game._links">
-      {{ game.date | appDate: 'full' }} {{ game.status }}    
-      <img [src]="game._links.homeTeam.img" 
+    <div *ngIf="game && game._links" class="row">
+      <span class="col-xs-12 col-md-4">{{ game.date | appDate: 'full' }} {{ game.status }}</span>
+      <span class="col-xs-12 col-md-8">
+        <img [src]="game._links.homeTeam.img" 
         [alt]="game.homeTeamName" 
         width="20px" onerror="this.src='/assets/images/default.jpg'">    
-      <a [routerLink]="['/teams', game._links.homeTeam.id]">
-        {{game.homeTeamName}}
-      </a> -
-      <img [src]="game._links.awayTeam.img" 
-        [alt]="game.awayTeamName" 
-        width="20px" onerror="this.src='/assets/images/default.jpg'">
-      <a [routerLink]="['/teams', game._links.awayTeam.id]">
-        {{game.awayTeamName}}
-      </a> 
+        <a [routerLink]="['/teams', game._links.homeTeam.id]">
+          {{game.homeTeamName}}
+        </a> -
+        <img [src]="game._links.awayTeam.img" 
+          [alt]="game.awayTeamName" 
+          width="20px" onerror="this.src='/assets/images/default.jpg'">
+        <a [routerLink]="['/teams', game._links.awayTeam.id]">
+          {{game.awayTeamName}}
+        </a>
+        <a [routerLink]="['/history', game._links.self.id]"><strong>history</strong></a>
+      </span>    
+      
       <span *ngIf="game.status === 'IN_PLAY'">  
         {{game.result.goalsHomeTeam}} : {{game.result.goalsAwayTeam}}
       </span>
-      <a [routerLink]="['/history', game._links.self.id]"><strong>history</strong></a>        
-    </span>    
+              
+    </div>    
   </div>
 </div>
 
