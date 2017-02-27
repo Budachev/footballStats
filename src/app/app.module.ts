@@ -23,6 +23,7 @@ import { HistoryComponent } from './components/history/history.component';
 import { GameTitleComponent } from './components/common/matchTitle.component';
 import { CompetitionGroupComponent } from './components/common/competitionGroup.component';
 import { CompetitionTableComponent } from './components/common/competitionTable.component';
+import { Back2TopComponent } from './components/common/back2top/back2top.component';
 
 // DIRECTIVES
 
@@ -47,6 +48,7 @@ import { HomeResolver } from './resolvers/home.resolver';
     GameTitleComponent,
     CompetitionTableComponent,
     CompetitionGroupComponent,
+    Back2TopComponent,
 
     // Pipes
     appDatePipe
