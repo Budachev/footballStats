@@ -11,6 +11,6 @@ export class TeamsService {
   getTeam(id) {
     let request = `${config.APIUrl}/teams/${id}`;
 
-    return this.http.get(request)
+    return this.http.get(request);
   }
 }

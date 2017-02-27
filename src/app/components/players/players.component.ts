@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Http, Response, Headers, RequestOptions } from "@angular/http";
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 @Component({
     selector: 'app-home',
     templateUrl: './players.component.html'
 })
 export class PlayersComponent implements OnInit {
-    players = []
+    players = [];
 
     constructor(private route: ActivatedRoute, private http: Http) {
         this.route.data.subscribe(val => {

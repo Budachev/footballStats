@@ -5,10 +5,10 @@ import { HttpModule } from '@angular/http';
 import { DatePipe } from '@angular/common';
 
 // SERVICES
-import { CompetitionsService } from './services/competitions.service';
+import { HomeService } from './services/home.service';
 import { TeamsService } from './services/teams.service';
 import { PlayersService } from './services/players.service';
-import { HomeService } from './services/home.service';
+import { CompetitionsService } from './services/competitions.service';
 
 import { routing } from './configs/nav.config';
 
@@ -18,12 +18,12 @@ import { NavComponent } from './components/nav/nav.component';
 import { HomeComponent } from './components/home/home.component';
 import { TeamsComponent } from './components/teams/teams.component';
 import { PlayersComponent } from './components/players/players.component';
-import { CompetitionsComponent } from './components/competitions/competitions.component';
 import { HistoryComponent } from './components/history/history.component';
 import { GameTitleComponent } from './components/common/matchTitle.component';
+import { Back2TopComponent } from './components/common/back2top/back2top.component';
+import { CompetitionsComponent } from './components/competitions/competitions.component';
 import { CompetitionGroupComponent } from './components/common/competitionGroup.component';
 import { CompetitionTableComponent } from './components/common/competitionTable.component';
-import { Back2TopComponent } from './components/common/back2top/back2top.component';
 
 // DIRECTIVES
 
@@ -31,10 +31,10 @@ import { Back2TopComponent } from './components/common/back2top/back2top.compone
 import { appDatePipe } from './pipes/appDate.pipe';
 
 // RESOLVERS
-import { CompetitionsResolver, CompetitionsFixturesResolver } from './resolvers/competitions.resolver';
+import { HomeResolver } from './resolvers/home.resolver';
 import { TeamsResolver } from './resolvers/teams.resolver';
 import { PlayersResolver } from './resolvers/players.resolver';
-import { HomeResolver } from './resolvers/home.resolver';
+import { CompetitionsResolver, CompetitionsFixturesResolver } from './resolvers/competitions.resolver';
 
 @NgModule({
   declarations: [

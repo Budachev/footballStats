@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Renderer } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, Renderer } from '@angular/core';
 import { HostListener } from '@angular/core';
 import { CompetitionsService } from '../../services/competitions.service';
 
@@ -7,7 +7,7 @@ import { CompetitionsService } from '../../services/competitions.service';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css']
 })
-export class NavComponent implements OnInit {
+export class NavComponent implements OnInit, OnDestroy {
   sideNavOpen: Boolean = false;
   globalListenFunc: Function = null;
   competitions = [];

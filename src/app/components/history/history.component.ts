@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Http, Response, Headers, RequestOptions } from "@angular/http";
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 
@@ -12,6 +12,11 @@ import { CompetitionsService } from '../../services/competitions.service';
     templateUrl: './history.component.html'
 })
 export class HistoryComponent implements OnInit, OnDestroy {
+    historyId: number = null;
+    data: Object = {};
+    table = [];
+    highlightTeams = [];
+    subscription: any = {};
 
     constructor(
         private route: ActivatedRoute,
@@ -21,19 +26,13 @@ export class HistoryComponent implements OnInit, OnDestroy {
         ) {
         this.route.params.subscribe(params => {
             if (params['id']) {
-                this.id = params['id'];
+                this.historyId = params['id'];
             }
         });
     }
 
-    id: number = null;
-    data: Object = {};
-    table = [];
-    highlightTeams = [];
-    subscription:any = {};
-
     ngOnInit() {
-        this.subscription = this.homeService.getHistory(this.id)
+        this.subscription = this.homeService.getHistory(this.historyId)
         .map(this.extractData)
         .subscribe(this.handleData.bind(this), this.handleError, this.handleComplete);
     }
@@ -42,13 +41,13 @@ export class HistoryComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    handleData(data){
+    handleData(data) {
         this.data = data;
-            this.highlightTeams = [data.fixture._links.homeTeam.id, data.fixture._links.awayTeam.id];
-
-            this.competitionsService.getCompetitions(data.fixture._links.competition.id)
-                .map(this.extractData)
-                .subscribe(data => this.table = data.standing);
+        let links = data.fixture._links;
+        this.highlightTeams = [links.homeTeam.id, links.awayTeam.id];
+        this.competitionsService.getCompetitions(data.fixture._links.competition.id)
+            .map(this.extractData)
+            .subscribe(res => this.table = res.standing);
     }
 
     extractData(response) {
@@ -57,11 +56,11 @@ export class HistoryComponent implements OnInit, OnDestroy {
     }
 
     handleComplete() {
-        console.log('Complete');
+        console.log('Complete history onInit');
     }
 
     handleError(error) {
-        console.log('error:', error)
+        console.log('error:', error);
         return Observable.throw(error);
     }
 }

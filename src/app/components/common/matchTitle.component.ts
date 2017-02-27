@@ -1,8 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Http, Response, Headers, RequestOptions } from "@angular/http";
-import 'rxjs/Rx';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 @Component({
   selector: '[game-title]',
@@ -23,15 +22,13 @@ import 'rxjs/Rx';
   </span>  
   `
 })
-export class GameTitleComponent implements OnInit {
+export class GameTitleComponent implements OnInit, OnChanges {
+  homeWin: Boolean = null;
   @Input() game: any;
   constructor(
     private route: ActivatedRoute,
     private http: Http
-  ) {
-  }
-
-  homeWin: Boolean = null;
+  ) {}
 
   ngOnInit() {
     if (this.game.result.goalsHomeTeam !== this.game.result.goalsAwayTeam) {
@@ -40,12 +37,8 @@ export class GameTitleComponent implements OnInit {
 
   }
 
-  ngOnChanges(changes) {
-    //console.log(changes)
-  }
+  ngOnChanges(changes) {}
 
-  isHomeWinner() {
-
-  }
+  isHomeWinner() {}
 
 }

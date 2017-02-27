@@ -6,7 +6,7 @@ import { DebugElement } from '@angular/core';
 import { NavComponent } from './nav.component';
 
 import { CompetitionsService } from '../../services/competitions.service';
-import { Http, Response } from "@angular/http";
+import { Http, Response } from '@angular/http';
 
 describe('NavComponent', () => {
    let component: NavComponent;

@@ -9,6 +9,7 @@ import { config } from '../../../configs/app.config';
 })
 export class Back2TopComponent implements OnInit {
     isVisible: Boolean = false;
+    scrollHandler = debounce(this.checkScroll, config.debounceTimeout);
     constructor() { }
 
     checkScroll() {
@@ -18,8 +19,6 @@ export class Back2TopComponent implements OnInit {
             this.isVisible = false;
         }
     }
-
-    scrollHandler = debounce(this.checkScroll, config.debounceTimeout)
 
     @HostListener('window:scroll', ['$event'])
     doSomething() {

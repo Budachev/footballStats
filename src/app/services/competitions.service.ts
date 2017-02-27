@@ -14,19 +14,19 @@ export class CompetitionsService {
       request += `/${id}/leagueTable`;
     }
 
-    return this.http.get(request)
+    return this.http.get(request);
   }
 
   getCompetitionsFixture(id: number) {
     let request = `${config.APIUrl}/competitions/${id}/fixtures/`;
 
-    return this.http.get(request)
+    return this.http.get(request);
   }
 
   getCompetitionDay(cmpId: number, id: number) {
     let request = `${config.APIUrl}/competitions/${cmpId}/leagueTable/?matchday=${id}`;
 
-    return this.http.get(request)
+    return this.http.get(request);
   }
 
 }
