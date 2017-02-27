@@ -1,5 +1,5 @@
 import { HistoryComponent } from '../components/history/history.component';
-import { Routes, RouterModule } from "@angular/router";
+import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from '../components/home/home.component';
 import { CompetitionsComponent } from '../components/competitions/competitions.component';
 import { TeamsComponent } from '../components/teams/teams.component';
