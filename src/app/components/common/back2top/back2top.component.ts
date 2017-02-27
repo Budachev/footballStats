@@ -1,19 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, HostListener } from '@angular/core';
-
-function debounce(func, wait, immediate = false) {
-    let timeout;
-    return function () {
-        let context = this, args = arguments;
-        let later = function () {
-            timeout = null;
-            if (!immediate) { func.apply(context, args) };
-        };
-        let callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) {func.apply(context, args)};
-    };
-};
+import { debounce }  from './../../../utils/helpers';
+import { config } from '../../../configs/app.config';
 
 @Component({
     selector: 'back2top',
@@ -21,7 +8,7 @@ function debounce(func, wait, immediate = false) {
     styleUrls: ['./back2top.scss']
 })
 export class Back2TopComponent implements OnInit {
-    isVisible: boolean = false;
+    isVisible: Boolean = false;
     constructor() { }
 
     checkScroll() {
@@ -32,18 +19,17 @@ export class Back2TopComponent implements OnInit {
         }
     }
 
+    scrollHandler = debounce(this.checkScroll, config.debounceTimeout)
+
     @HostListener('window:scroll', ['$event'])
     doSomething() {
-        this.checkScroll();
-    }
-
-
-    ngOnInit() {
-        console.log('back 2 top');
+        this.scrollHandler();
     }
 
     back() {
         document.body.scrollTop = document.documentElement.scrollTop = 0;
         this.isVisible = false;
     }
+
+    ngOnInit() {}
 }
