@@ -1,0 +1,9 @@
+<span [class]="logoClass">
+    <span *ngFor='let time of times; let i = index' [class]=getClass(i)></span>
+</span>
+
+<img *ngIf="!logoClass" 
+    src="{{team.crestURI}}" 
+    onerror="this.src='/assets/images/default.jpg'" 
+    width="30px" 
+    [alt]="team.teamName">

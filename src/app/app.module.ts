@@ -19,6 +19,7 @@ import { HomeComponent } from './components/home/home.component';
 import { TeamsComponent } from './components/teams/teams.component';
 import { PlayersComponent } from './components/players/players.component';
 import { HistoryComponent } from './components/history/history.component';
+import { LogoComponent } from './components/common/logoComponent/logo.component';
 import { GameTitleComponent } from './components/common/matchTitle.component';
 import { Back2TopComponent } from './components/common/back2top/back2top.component';
 import { CompetitionsComponent } from './components/competitions/competitions.component';
@@ -36,6 +37,9 @@ import { TeamsResolver } from './resolvers/teams.resolver';
 import { PlayersResolver } from './resolvers/players.resolver';
 import { CompetitionsResolver, CompetitionsFixturesResolver } from './resolvers/competitions.resolver';
 
+// Bootstrap
+import { PopoverModule } from 'ng2-bootstrap/popover';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,11 +53,13 @@ import { CompetitionsResolver, CompetitionsFixturesResolver } from './resolvers/
     CompetitionTableComponent,
     CompetitionGroupComponent,
     Back2TopComponent,
+    LogoComponent,
 
     // Pipes
     appDatePipe
   ],
   imports: [
+    PopoverModule.forRoot(),
     BrowserModule,
     FormsModule,
     HttpModule,

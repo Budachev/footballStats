@@ -1,15 +1,15 @@
-<table class="ui selectable celled table">
+<table class="table table-bordered table-hover">
   <thead>
     <tr>
       <td>Pos</td>
       <td></td>
       <td>Club</td>
-      <td>Played</td>
-      <td>Points</td>
-      <td><span title="Goal difference">GD</span></td>
-      <td>Won</td>
-      <td>draws</td>
-      <td>losses</td>
+      <td class="text-center">Played</td>
+      <td class="text-center">Points</td>
+      <td class="text-center"><span title="Goal difference">GD</span></td>
+      <td class="text-center">Won</td>
+      <td class="text-center">draws</td>
+      <td class="text-center">losses</td>
       <td *ngIf="table[0].lastGames">Last games</td>
     </tr>
   </thead>
@@ -29,21 +29,22 @@
           -
         </span>
       </td>
-      <td>
-        <img src="{{team.crestURI}}" onerror="this.src='/assets/images/default.jpg'" width="30px" [alt]="team.teamName">
+      <td class="text-center">
+        <logo [team]="team"></logo>
       </td>
       <td><a [routerLink]="['/teams', team.id]">{{team.teamName}}</a></td>
-      <td>{{team.playedGames}}</td>
-      <td><strong>{{team.points}}</strong></td>
-      <td>{{team.goalDifference}}</td>
-      <td>{{team.wins}}</td>
-      <td>{{team.draws}}</td>
-      <td>{{team.losses}}</td>
+      <td class="text-center">{{team.playedGames}}</td>
+      <td class="text-center"><strong>{{team.points}}</strong></td>
+      <td class="text-center">{{team.goalDifference}}</td>
+      <td class="text-center">{{team.wins}}</td>
+      <td class="text-center">{{team.draws}}</td>
+      <td class="text-center">{{team.losses}}</td>
       <td *ngIf="team.lastGames">
         <span *ngFor='let game of team.lastGames'>
           <span 
             class="circle"
-            title="{{game.homeTeamName}} - {{game.awayTeamName}} {{game.result.goalsHomeTeam}}:{{game.result.goalsAwayTeam}}"
+            triggers="mouseenter:mouseleave"
+            popover="{{game.homeTeamName}} - {{game.awayTeamName}} {{game.result.goalsHomeTeam}}:{{game.result.goalsAwayTeam}}"
           >
              <span *ngIf="game.result.winner === true" class="green">W</span>
         <span *ngIf="game.result.winner === false" class="red">L</span>
