@@ -30,6 +30,7 @@ import { CompetitionTableComponent } from './components/common/competitionTable.
 
 // PIPES
 import { appDatePipe } from './pipes/appDate.pipe';
+import { DateFilterPipe } from './pipes/dateFilter.pipe';
 
 // RESOLVERS
 import { HomeResolver } from './resolvers/home.resolver';
@@ -39,6 +40,7 @@ import { CompetitionsResolver, CompetitionsFixturesResolver } from './resolvers/
 
 // Bootstrap
 import { PopoverModule } from 'ng2-bootstrap/popover';
+import { DatepickerModule } from 'ng2-bootstrap';
 
 @NgModule({
   declarations: [
@@ -56,10 +58,12 @@ import { PopoverModule } from 'ng2-bootstrap/popover';
     LogoComponent,
 
     // Pipes
-    appDatePipe
+    appDatePipe,
+    DateFilterPipe
   ],
   imports: [
     PopoverModule.forRoot(),
+    DatepickerModule.forRoot(),
     BrowserModule,
     FormsModule,
     HttpModule,
@@ -76,8 +80,9 @@ import { PopoverModule } from 'ng2-bootstrap/popover';
     PlayersResolver,
     TeamsResolver,
     HomeResolver,
-    DatePipe
+    DateFilterPipe,
+    DatePipe,
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

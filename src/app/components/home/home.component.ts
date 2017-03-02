@@ -15,6 +15,8 @@ import { HomeService } from '../../services/home.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  public dt: Date = new Date();
+  public minDate: Date = void 0;
   lastCompetitions: number[] = [];
   allCompetitions: any[] = [];
   homeData = { fixtures: [], competitions: [] };
@@ -67,10 +69,13 @@ export class HomeComponent implements OnInit {
     });
 
     this.lastCompetitions = this.allCompetitions.filter(cmp => lastIds.includes(cmp.id));
-
   }
 
-  isNewCompetition(match, i) {
+  public getDate(): number {
+    return this.dt && this.dt.getTime() || new Date().getTime();
+  }
+
+  isNewCompetition(match, i): boolean {
     if (!match) {
       return false;
     };
@@ -82,18 +87,18 @@ export class HomeComponent implements OnInit {
 
   getHistory(match) {}
 
-  getLastCompetitions(): any {
+  getLastCompetitions() {
     let list: any = localStorage.getItem('lastCompetitions');
     list = JSON.parse(list);
 
     return list && list.length ? list : [];
   }
 
-  isCheched(val) {
+  isCheched(val): boolean {
     return this.filter === val;
   }
 
-  onSortChange(val) {
+  onSortChange(val): void {
     this.filter = val;
     this.sortFixtures();
   }

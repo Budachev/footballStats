@@ -38,9 +38,20 @@
   </div>
 </div>
 <div class="home">
+  <pre class="card card-block card-header">Selected date is: <em *ngIf="dt">{{ getDate() | date:'fullDate'}}</em></pre>
+
+  <template #popTemplate>
+    <div [innerHtml]="html"></div>
+    <datepicker [(ngModel)]="dt" [minDate]="minDate" [showWeeks]="true" [dateDisabled]="dateDisabled"></datepicker>
+  </template>
+    
+  <button type="button" class="btn btn-success"
+        [popover]="popTemplate" popoverTitle="Dynamic html inside" placement="bottom">
+        Show me popover with datepicker
+  </button>
   <h4>Schedule for {{homeData.timeFrameStart | appDate}} - {{homeData.timeFrameEnd | appDate}}</h4>
-  <div *ngFor='let game of homeData.fixtures, let i = index;'>
-    <h5 *ngIf="isNewCompetition(game, i)" class="row">
+  <div *ngFor="let game of homeData.fixtures">
+    <h5 *ngIf="isNewCompetition(game, $index)" class="row">
       {{ vocablurary[game._links.competition.id] }}
     </h5>
     <div *ngIf="game && game._links" class="row">

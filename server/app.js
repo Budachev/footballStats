@@ -84,7 +84,7 @@ app.get('/home', function (req, res) {
               }
               return r.data;
             });
-            
+
             console.log('request');
             homeData.data = response.data;
             res.send(response.data);
@@ -126,13 +126,20 @@ app.get('/competitions/:id/fixtures', function (req, res) {
     });
 })
 
+let competitions;
 
 app.get('/competitions', function (req, res) {
-  instance.get('competitions/').then(response => {
-    res.send(response.data);
-  }).catch((err) => {
-    errorHandler(err, res);
-  });
+  if (competitions) {
+    res.send(competitions);
+  } else {
+    instance.get('competitions/').then(response => {
+      competitions = response.data;
+      res.send(response.data);
+    }).catch((err) => {
+      errorHandler(err, res);
+    });
+  }
+
 })
 
 
