@@ -15,6 +15,8 @@ import { HomeService } from '../../services/home.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  public dt: Date = new Date();
+  public minDate: Date = void 0;
   lastCompetitions: number[] = [];
   allCompetitions: any[] = [];
   homeData = { fixtures: [], competitions: [] };
@@ -67,33 +69,37 @@ export class HomeComponent implements OnInit {
     });
 
     this.lastCompetitions = this.allCompetitions.filter(cmp => lastIds.includes(cmp.id));
-
   }
 
-  isNewCompetition(match, i) {
+  public getDate(): number {
+    return this.dt && this.dt.getTime() || new Date().getTime();
+  }
+
+  isNewCompetition(match): boolean {
     if (!match) {
       return false;
+    } else {
+      const i = this.homeData.fixtures.findIndex(fixture => fixture._links.self.href === match._links.self.href);
+      const prev = this.homeData.fixtures[i - 1];
+
+      return i === 0 || (prev && match._links.competition.id !== prev._links.competition.id);
     };
-
-    const prev = this.homeData.fixtures[i - 1];
-
-    return i === 0 || (prev && match._links.competition.id !== prev._links.competition.id);
   }
 
   getHistory(match) {}
 
-  getLastCompetitions(): any {
+  getLastCompetitions() {
     let list: any = localStorage.getItem('lastCompetitions');
     list = JSON.parse(list);
 
     return list && list.length ? list : [];
   }
 
-  isCheched(val) {
+  isCheched(val): boolean {
     return this.filter === val;
   }
 
-  onSortChange(val) {
+  onSortChange(val): void {
     this.filter = val;
     this.sortFixtures();
   }

@@ -19,6 +19,7 @@ import { HomeComponent } from './components/home/home.component';
 import { TeamsComponent } from './components/teams/teams.component';
 import { PlayersComponent } from './components/players/players.component';
 import { HistoryComponent } from './components/history/history.component';
+import { LogoComponent } from './components/common/logoComponent/logo.component';
 import { GameTitleComponent } from './components/common/matchTitle.component';
 import { Back2TopComponent } from './components/common/back2top/back2top.component';
 import { CompetitionsComponent } from './components/competitions/competitions.component';
@@ -29,12 +30,17 @@ import { CompetitionTableComponent } from './components/common/competitionTable.
 
 // PIPES
 import { appDatePipe } from './pipes/appDate.pipe';
+import { DateFilterPipe } from './pipes/dateFilter.pipe';
 
 // RESOLVERS
 import { HomeResolver } from './resolvers/home.resolver';
 import { TeamsResolver } from './resolvers/teams.resolver';
 import { PlayersResolver } from './resolvers/players.resolver';
 import { CompetitionsResolver, CompetitionsFixturesResolver } from './resolvers/competitions.resolver';
+
+// Bootstrap
+import { PopoverModule } from 'ng2-bootstrap/popover';
+import { DatepickerModule } from 'ng2-bootstrap';
 
 @NgModule({
   declarations: [
@@ -49,11 +55,15 @@ import { CompetitionsResolver, CompetitionsFixturesResolver } from './resolvers/
     CompetitionTableComponent,
     CompetitionGroupComponent,
     Back2TopComponent,
+    LogoComponent,
 
     // Pipes
-    appDatePipe
+    appDatePipe,
+    DateFilterPipe
   ],
   imports: [
+    PopoverModule.forRoot(),
+    DatepickerModule.forRoot(),
     BrowserModule,
     FormsModule,
     HttpModule,
@@ -70,8 +80,9 @@ import { CompetitionsResolver, CompetitionsFixturesResolver } from './resolvers/
     PlayersResolver,
     TeamsResolver,
     HomeResolver,
-    DatePipe
+    DateFilterPipe,
+    DatePipe,
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

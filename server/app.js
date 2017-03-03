@@ -14,6 +14,11 @@ let instance = axios.create({
   }
 });
 
+let homeData = {
+  data: null,
+  date: new Date(),
+}
+
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -36,6 +41,15 @@ function getLastUrlId(url) {
 }
 
 app.get('/home', function (req, res) {
+  let now = new Date();
+
+  // We send this request not more than once every 5 minutes 
+  if (now.getTime() - homeData.date.getTime() < 300000 && homeData.data) {
+    homeData.date = now;
+    console.log('cash');
+    res.send(homeData.data);
+  }
+
   instance.get('fixtures').then(response => {
       let competitions = [];
 
@@ -71,6 +85,8 @@ app.get('/home', function (req, res) {
               return r.data;
             });
 
+            console.log('request');
+            homeData.data = response.data;
             res.send(response.data);
           }))
       }
@@ -110,13 +126,20 @@ app.get('/competitions/:id/fixtures', function (req, res) {
     });
 })
 
+let competitions;
 
 app.get('/competitions', function (req, res) {
-  instance.get('competitions/').then(response => {
-    res.send(response.data);
-  }).catch((err) => {
-    errorHandler(err, res);
-  });
+  if (competitions) {
+    res.send(competitions);
+  } else {
+    instance.get('competitions/').then(response => {
+      competitions = response.data;
+      res.send(response.data);
+    }).catch((err) => {
+      errorHandler(err, res);
+    });
+  }
+
 })
 
 

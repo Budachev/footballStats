@@ -80,6 +80,18 @@ ol {
 	background: blue;
 }
 
+.table {
+	background: white;
+}
+
+table [class^="icon-"], table [class*=" icon-"] {
+    font-size: 30px;
+}
+
+.popover  {
+	max-width: 333px;
+}
+
 /*** Loader animation ***/
 
 .blob {

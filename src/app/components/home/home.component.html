@@ -1,16 +1,12 @@
 <div class="competitions hidden-xs">
   <div *ngIf="lastCompetitions.length">
-    <h4>
-      Last viewed competitions:
-    </h4>
+    <h4>Last viewed competitions:</h4>
     <div *ngFor='let competition of lastCompetitions'>
       <a [routerLink]="['/competitions', competition.id]">{{competition.caption}}</a>
     </div>
   </div>
   <div *ngIf="competitions.length">
-    <h4>
-      Competitions:
-    </h4>
+    <h4>Competitions:</h4>
     <div *ngFor='let competition of competitions'>
       <a [routerLink]="['/competitions', competition.id]">{{competition.caption}}</a>
     </div>
@@ -35,12 +31,35 @@
         </label>
       </div>
     </div>
+    <label>Filter by:</label>
+    <div class="field">
+      <div>        
+        <label>
+          <input type="radio" [checked]="isCheched('filterDate')" (change)="onSortChange('filterDate')" />
+          Date
+        </label>
+      </div>
+    </div>
   </div>
 </div>
 <div class="home">
+  <pre class="card card-block card-header">Selected date is: <em *ngIf="dt">{{ getDate() | date:'fullDate'}}</em></pre>
+
+  <template #popTemplate>
+    <div [innerHtml]="html"></div>
+    <datepicker [(ngModel)]="dt" [minDate]="minDate" [showWeeks]="true" [dateDisabled]="dateDisabled"></datepicker>
+  </template>
+    
+  <button type="button"
+    [popover]="popTemplate"
+    class="btn btn-success"
+    popoverTitle="Dynamic html inside" 
+    placement="bottom">
+      Show me popover with datepicker
+  </button>
   <h4>Schedule for {{homeData.timeFrameStart | appDate}} - {{homeData.timeFrameEnd | appDate}}</h4>
-  <div *ngFor='let game of homeData.fixtures, let i = index;'>
-    <h5 *ngIf="isNewCompetition(game, i)" class="row">
+  <div *ngFor="let game of homeData.fixtures | dateFilter: (isCheched('filterDate') ? dt : '')">
+    <h5 *ngIf="isNewCompetition(game)" class="row">
       {{ vocablurary[game._links.competition.id] }}
     </h5>
     <div *ngIf="game && game._links" class="row">
@@ -64,7 +83,6 @@
       <span *ngIf="game.status === 'IN_PLAY'">  
         {{game.result.goalsHomeTeam}} : {{game.result.goalsAwayTeam}}
       </span>
-              
     </div>    
   </div>
 </div>
