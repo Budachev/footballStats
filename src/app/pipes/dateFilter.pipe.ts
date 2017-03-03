@@ -9,6 +9,7 @@ export class DateFilterPipe implements PipeTransform {
     constructor() { }
 
     transform(items, day) {
+        if (!day) { return items; };
 
         let filterDay = new Date(day);
 

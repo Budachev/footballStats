@@ -75,14 +75,15 @@ export class HomeComponent implements OnInit {
     return this.dt && this.dt.getTime() || new Date().getTime();
   }
 
-  isNewCompetition(match, i): boolean {
+  isNewCompetition(match): boolean {
     if (!match) {
       return false;
+    } else {
+      const i = this.homeData.fixtures.findIndex(fixture => fixture._links.self.href === match._links.self.href);
+      const prev = this.homeData.fixtures[i - 1];
+
+      return i === 0 || (prev && match._links.competition.id !== prev._links.competition.id);
     };
-
-    const prev = this.homeData.fixtures[i - 1];
-
-    return i === 0 || (prev && match._links.competition.id !== prev._links.competition.id);
   }
 
   getHistory(match) {}
