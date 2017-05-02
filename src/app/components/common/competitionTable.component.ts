@@ -3,8 +3,8 @@ import { CompetitionsService } from '../../services/competitions.service';
 
 @Component({
     selector: 'leagueTable',
-    templateUrl: 'competitionTable.component.html',
-    styleUrls: ['competitionTable.component.scss']
+    templateUrl: './competitionTable.component.html',
+    styleUrls: ['./competitionTable.component.scss']
 })
 export class CompetitionTableComponent implements OnInit {
     constructor(private competitionsService: CompetitionsService) { }

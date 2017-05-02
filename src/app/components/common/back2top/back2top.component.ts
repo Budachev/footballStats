@@ -4,7 +4,7 @@ import { config } from '../../../configs/app.config';
 
 @Component({
     selector: 'back2top',
-    templateUrl: 'back2top.component.html',
+    templateUrl: './back2top.component.html',
     styleUrls: ['./back2top.scss']
 })
 export class Back2TopComponent implements OnInit {

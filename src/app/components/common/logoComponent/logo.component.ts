@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ChangeDetectionStrategy, HostListener } from 
 
 @Component({
     selector: 'logo',
-    templateUrl: 'logo.component.html',
+    templateUrl: './logo.component.html',
     styleUrls: ['./logo.scss']
 })
 export class LogoComponent implements OnInit {
