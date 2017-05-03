@@ -50,7 +50,7 @@ const APP_ROUTES: Routes = [
             team: TeamsResolver
         }
     },
-    { path: 'lazy', loadChildren: 'app/modules/lazy/lazy.module#LazyModule' },
+    { path: 'record', loadChildren: 'app/modules/record/record.module#RecordModule' },
     {
         path: '**',
         redirectTo: '/home',
