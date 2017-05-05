@@ -3,8 +3,34 @@ const express = require('express');
 const config = require('./config.json');
 const app = express();
 
+const bodyParser  = require('body-parser');
+const morgan      = require('morgan');
+const mongoose    = require('mongoose');
+
+const jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
+const User   = require('./models/user'); // get our mongoose model
+const monk = require('monk');
 const token = config.apiKey;
 let competitionsData;
+
+// mongoose.connect(config.database); 
+
+app.set('secretKey', config.secretKey); // secret variable
+
+// use body parser so we can get info from POST and/or URL parameters
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// use morgan to log requests to the console
+app.use(morgan('dev'));
+
+const db = monk('localhost:27017/users');
+
+// Make our db accessible to our router
+app.use(function(req,res,next){
+    req.db = db;
+    next();
+});
 
 let instance = axios.create({
   baseURL: 'https://api.football-data.org/v1/',
@@ -39,6 +65,15 @@ function getLastUrlId(url) {
   const splitted = url.split('/');
   return Number(splitted[splitted.length - 1]);
 }
+
+/* GET Userlist page. */
+app.get('/users', function (req, res) {
+    let db = req.db;
+    let collection = db.get('usercollection');
+    collection.find({},{},function(e,docs){
+        res.send(docs);
+    });
+});
 
 app.get('/home', function (req, res) {
   let now = new Date();
@@ -108,7 +143,6 @@ app.get('/fixtures/:id', function (req, res) {
     });
 })
 
-
 app.get('/competitions/:id/fixtures', function (req, res) {
   instance.get(`competitions/${req.params.id}/fixtures/`).then(response => {
       let fixtures = response.data.fixtures.map(game => {
@@ -139,9 +173,7 @@ app.get('/competitions', function (req, res) {
       errorHandler(err, res);
     });
   }
-
 })
-
 
 app.get('/competitions/:id/leagueTable/', function (req, res) {
   if (req.query.matchday) {
