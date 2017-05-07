@@ -75,6 +75,76 @@ app.get('/users', function (req, res) {
     });
 });
 
+app.get('/token', function(req, res) {
+  // check header or url parameters or post parameters for token
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+  // decode token
+  if (token) {
+    console.log(token)
+    // verifies secret and checks exp
+    jwt.verify(token, app.get('secretKey'), function(err, decoded) {
+      if (err) {
+        res.send({ success: false, message: 'Failed to authenticate token.' });
+      } else {
+        // if everything is good, save to request for use in other routes
+        req.decoded = decoded;
+        res.send('success')
+      }
+    });
+
+  } else {
+
+    // if there is no token
+    // return an error
+    return res.status(403).send({
+        success: false, 
+        message: 'No token provided.'
+    });
+    
+  }
+});
+
+/* POST to Add User Service */
+app.post('/adduser', function(req, res) {
+
+    // Set our internal DB variable
+    let db = req.db;
+
+    // Get our form values. These rely on the "name" attributes
+    let userName = req.body.username;
+    let userEmail = req.body.useremail;
+
+    // Set our collection
+    let collection = db.get('usercollection');
+
+    collection.findOne( { username: userName },{},function(err, user){
+        if (err) throw err;
+
+        if( user ){
+          let token = jwt.sign(user, app.get('secretKey'));
+          console.log(token);
+          // res.send(token);
+          res.send(`User with name ${userName} already exists.`);
+        } else {
+          // Submit to the DB
+          collection.insert({
+              "username" : userName,
+              "email" : userEmail
+          }, function (err, doc) {
+              if (err) {
+                  // If it failed, return error
+                  res.send("There was a problem adding the information to the database.");
+              }
+              else {
+                  // And forward to success page
+                  res.redirect("users");
+              }
+          });
+        }
+    });
+});
+
 app.get('/home', function (req, res) {
   let now = new Date();
 
