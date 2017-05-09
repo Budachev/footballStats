@@ -1,16 +1,18 @@
-const axios = require('axios');
-const express = require('express');
-const config = require('./config.json');
-const app = express();
+const axios       = require('axios');
+const express     = require('express');
+const config      = require('./config.json');
+const app         = express();
 
 const bodyParser  = require('body-parser');
 const morgan      = require('morgan');
 const mongoose    = require('mongoose');
+const cors        = require('cors')
 
-const jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
-const User   = require('./models/user'); // get our mongoose model
-const monk = require('monk');
-const token = config.apiKey;
+const jwt         = require('jsonwebtoken'); // used to create, sign, and verify tokens
+const User        = require('./models/user'); // get our mongoose model
+const monk        = require('monk');
+const token       = config.apiKey;
+
 let competitionsData;
 
 // mongoose.connect(config.database); 
@@ -20,6 +22,7 @@ app.set('secretKey', config.secretKey); // secret variable
 // use body parser so we can get info from POST and/or URL parameters
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 
 // use morgan to log requests to the console
 app.use(morgan('dev'));
@@ -45,12 +48,6 @@ let homeData = {
   date: new Date(),
 }
 
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
 function errorHandler(err, res) {
   console.log(err)
   let status = err.response ? err.response.status : 500;
@@ -68,16 +65,40 @@ function getLastUrlId(url) {
 
 /* GET Userlist page. */
 app.get('/users', function (req, res) {
-    let db = req.db;
-    let collection = db.get('usercollection');
-    collection.find({},{},function(e,docs){
-        res.send(docs);
-    });
+    // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+    let token = req.body.token || req.query.token || req.headers['x-access-token'];
+    
+      console.log(token)
+    if (token) {
+      // verifies secret and checks exp
+      jwt.verify(token, app.get('secretKey'), function(err, decoded) {
+        if (err) {
+            res.status(400);
+            res.send({ success: false, message: 'Failed to authenticate token.' });
+          } else {
+            // if everything is good, save to request for use in other routes
+            req.decoded = decoded;
+            let db = req.db;
+            let collection = db.get('usercollection');
+            
+            collection.find({},{},function(e,docs){
+                res.send(docs);
+            });
+          }
+        });
+    } else {
+      // if there is no token
+      // return an error
+      return res.status(403).send({
+          success: false, 
+          message: 'No token provided.'
+      });    
+    }    
 });
 
 app.get('/token', function(req, res) {
   // check header or url parameters or post parameters for token
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  let token = req.body.token || req.query.token || req.headers['x-access-token'];
 
   // decode token
   if (token) {
@@ -94,15 +115,41 @@ app.get('/token', function(req, res) {
     });
 
   } else {
-
     // if there is no token
     // return an error
     return res.status(403).send({
         success: false, 
         message: 'No token provided.'
-    });
-    
+    });    
   }
+});
+
+/* POST to Add User Service */
+app.post('/login', function(req, res) {
+
+    // Set our internal DB variable
+    let db = req.db;
+
+    // Get our form values. These rely on the "name" attributes
+    let userName = req.body.username;
+    let userEmail = req.body.useremail;
+    let password = req.body.password;
+
+    // Set our collection
+    let collection = db.get('usercollection');
+
+    collection.findOne( { username: userName },{},function(err, user){
+        if (err) throw err;
+
+        if( user.password === password ){
+          let token = jwt.sign(user, app.get('secretKey'));
+          user.token = token;
+          res.json(user);
+        } else {
+          res.status(400);
+          res.send("Invalid password.");
+        }
+    });
 });
 
 /* POST to Add User Service */
@@ -114,7 +161,7 @@ app.post('/adduser', function(req, res) {
     // Get our form values. These rely on the "name" attributes
     let userName = req.body.username;
     let userEmail = req.body.useremail;
-
+    let password = req.body.password;
     // Set our collection
     let collection = db.get('usercollection');
 
@@ -122,15 +169,14 @@ app.post('/adduser', function(req, res) {
         if (err) throw err;
 
         if( user ){
-          let token = jwt.sign(user, app.get('secretKey'));
-          console.log(token);
-          // res.send(token);
+          res.status(400);
           res.send(`User with name ${userName} already exists.`);
         } else {
           // Submit to the DB
           collection.insert({
               "username" : userName,
-              "email" : userEmail
+              "email" : userEmail,
+              "password" : password,
           }, function (err, doc) {
               if (err) {
                   // If it failed, return error
@@ -138,7 +184,10 @@ app.post('/adduser', function(req, res) {
               }
               else {
                   // And forward to success page
-                  res.redirect("users");
+                  //res.redirect("users");
+                  let token = jwt.sign(doc, app.get('secretKey'));
+                  doc.token = token;
+                  res.json(doc);
               }
           });
         }

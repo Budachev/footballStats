@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Router } from '@angular/router';
 
 import { config } from '../../../configs/app.config';
 
@@ -14,7 +15,7 @@ import { config } from '../../../configs/app.config';
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" class="form-control" id="password">
+        <input type="password" class="form-control" name="password" [(ngModel)]="password" required>
       </div>
       <button type="submit" class="btn btn-success">Submit</button>
     </form>
@@ -23,21 +24,23 @@ import { config } from '../../../configs/app.config';
 export class RecordAuthComponent {
   heroForm: FormGroup;
   username = 'John';
+  password = '';
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private router: Router) { }
 
   onSubmit(formValue) {
     console.log('submit');
     console.log(formValue);
 
-    let request = `${config.APIUrl}/adduser/`;
+    let request = `${config.APIUrl}/login`;
 
     this.http.post(request, formValue)
-      .map(data => {
-        return  data;
-      })
+      .map(data => data.json())
       .subscribe(res => {
-        console.log(res)
+        localStorage.setItem('currentUser', JSON.stringify(res));
+        this.router.navigate(['/record']);
+      }, err => {
+        console.error(err);
       });
   }
 }

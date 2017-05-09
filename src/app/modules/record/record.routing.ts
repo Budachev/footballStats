@@ -6,7 +6,7 @@ import { RecordComponent } from './components/record.component';
 import { RecordAuthComponent } from './components/record.auth.component';
 
 const routes: Routes = [
-  { path: '', component: RecordComponent, canActivate: [AuthGuard], redirectTo: 'auth' },
+  { path: '', component: RecordComponent, canActivate: [AuthGuard] },
   { path: 'auth', component: RecordAuthComponent}
 ];
 
