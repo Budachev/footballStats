@@ -49,7 +49,6 @@ let homeData = {
 }
 
 function errorHandler(err, res) {
-  console.log(err)
   let status = err.response ? err.response.status : 500;
   let error = err.response ? err.response.statusText : 'Something went wrong';
 
@@ -65,10 +64,8 @@ function getLastUrlId(url) {
 
 /* GET Userlist page. */
 app.get('/users', function (req, res) {
-    // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
     let token = req.body.token || req.query.token || req.headers['x-access-token'];
     
-      console.log(token)
     if (token) {
       // verifies secret and checks exp
       jwt.verify(token, app.get('secretKey'), function(err, decoded) {
@@ -96,33 +93,6 @@ app.get('/users', function (req, res) {
     }    
 });
 
-app.get('/token', function(req, res) {
-  // check header or url parameters or post parameters for token
-  let token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-  // decode token
-  if (token) {
-    console.log(token)
-    // verifies secret and checks exp
-    jwt.verify(token, app.get('secretKey'), function(err, decoded) {
-      if (err) {
-        res.send({ success: false, message: 'Failed to authenticate token.' });
-      } else {
-        // if everything is good, save to request for use in other routes
-        req.decoded = decoded;
-        res.send('success')
-      }
-    });
-
-  } else {
-    // if there is no token
-    // return an error
-    return res.status(403).send({
-        success: false, 
-        message: 'No token provided.'
-    });    
-  }
-});
 
 /* POST to Add User Service */
 app.post('/login', function(req, res) {
@@ -184,7 +154,6 @@ app.post('/adduser', function(req, res) {
               }
               else {
                   // And forward to success page
-                  //res.redirect("users");
                   let token = jwt.sign(doc, app.get('secretKey'));
                   doc.token = token;
                   res.json(doc);
