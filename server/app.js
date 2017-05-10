@@ -68,7 +68,7 @@ app.get('/users', function (req, res) {
     
     if (token) {
       // verifies secret and checks exp
-      jwt.verify(token, app.get('secretKey'), function(err, decoded) {
+      jwt.verify(token, app.get('secretKey'), (err, decoded) => {
         if (err) {
             res.status(400);
             res.send({ success: false, message: 'Failed to authenticate token.' });
@@ -78,8 +78,11 @@ app.get('/users', function (req, res) {
             let db = req.db;
             let collection = db.get('usercollection');
             
-            collection.find({},{},function(e,docs){
-                res.send(docs);
+            collection.find({},{},(e,docs) => {
+                res.send(docs.filter(user => {
+                  delete user.password;
+                  return user;
+                }));
             });
           }
         });
@@ -95,47 +98,44 @@ app.get('/users', function (req, res) {
 
 
 /* POST to Add User Service */
-app.post('/login', function(req, res) {
-
+app.post('/login', (req, res) => {
     // Set our internal DB variable
-    let db = req.db;
+    let db        = req.db;
 
     // Get our form values. These rely on the "name" attributes
-    let userName = req.body.username;
+    let userName  = req.body.username;
     let userEmail = req.body.useremail;
-    let password = req.body.password;
+    let password  = req.body.password;
 
     // Set our collection
     let collection = db.get('usercollection');
 
-    collection.findOne( { username: userName },{},function(err, user){
+    collection.findOne( { username: userName },{},(err, user) => {
         if (err) throw err;
-
-        if( user.password === password ){
+        if ( user.password === password ){
           let token = jwt.sign(user, app.get('secretKey'));
           user.token = token;
           res.json(user);
         } else {
           res.status(400);
-          res.send("Invalid password.");
+          res.send("Invalid password or user name.");
         }
     });
 });
 
 /* POST to Add User Service */
-app.post('/adduser', function(req, res) {
-
+app.post('/register', function(req, res) {
     // Set our internal DB variable
-    let db = req.db;
+    let db         = req.db;
 
     // Get our form values. These rely on the "name" attributes
-    let userName = req.body.username;
-    let userEmail = req.body.useremail;
-    let password = req.body.password;
+    let userName   = req.body.username;
+    let userEmail  = req.body.useremail;
+    let password   = req.body.password;
     // Set our collection
     let collection = db.get('usercollection');
 
-    collection.findOne( { username: userName },{},function(err, user){
+    collection.findOne( { username: userName },{}, (err, user) => {
         if (err) throw err;
 
         if( user ){

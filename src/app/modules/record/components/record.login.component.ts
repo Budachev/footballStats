@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
+import { LoginService } from '../services/login.service';
 
 import { config } from '../../../configs/app.config';
 
 @Component({
   template: `<div class="container row col-md-6 col-md-offset-3">
-    <h1>Hero Form</h1>
+    <h1>Login Form</h1>
+    <div *ngIf="error" class="alert alert-danger" role="alert">{{error}}</div>
     <form #formRef="ngForm" (ngSubmit)="onSubmit(formRef.value)">
       <div class="form-group">
         <label for="name">Name or email</label>
@@ -17,30 +19,27 @@ import { config } from '../../../configs/app.config';
         <label for="password">Password</label>
         <input type="password" class="form-control" name="password" [(ngModel)]="password" required>
       </div>
-      <button type="submit" class="btn btn-success">Submit</button>
+      <button type="submit" class="btn btn-success">Login</button> or
+      <a [routerLink]="['/record/register']" [routerLinkActive]="['is-active']">Register</a>
     </form>
-</div>`
+</div>`,
 })
-export class RecordAuthComponent {
+export class RecordLoginComponent {
   heroForm: FormGroup;
-  username = 'John';
+  username = '';
   password = '';
+  error = '';
 
-  constructor(private http: Http, private router: Router) { }
+  constructor(private router: Router, private loginService: LoginService) {}
 
   onSubmit(formValue) {
-    console.log('submit');
-    console.log(formValue);
-
-    let request = `${config.APIUrl}/login`;
-
-    this.http.post(request, formValue)
+    this.loginService.login(formValue)
       .map(data => data.json())
       .subscribe(res => {
         localStorage.setItem('currentUser', JSON.stringify(res));
         this.router.navigate(['/record']);
       }, err => {
-        console.error(err);
+        this.error = err._body;
       });
   }
 }
