@@ -22,11 +22,7 @@ export default {
         } else {
           let winnerName = s.result.goalsHomeTeam < s.result.goalsAwayTeam ? 'homeTeamName' : 'awayTeamName';
           // TODO somesing wrong with calculation of winner
-          if (stand.teamName === s[winnerName]) {
-            winner = true;
-          } else {
-            winner = false;
-          }
+          winner = stand.teamName === s[winnerName];
         }
 
         s.result.winner = winner;

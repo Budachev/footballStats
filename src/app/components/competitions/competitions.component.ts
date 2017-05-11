@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/Rx';
 
-import { CompetitionsService } from '../../services/competitions.service';
 import competitionMapper from '../../mappers/competitions.mapper';
 
 @Component({
@@ -21,9 +19,7 @@ export class CompetitionsComponent implements OnInit {
   data: any = {};
 
   constructor(
-    private route: ActivatedRoute,
-    private http: Http,
-    private competitionsService: CompetitionsService
+    private route: ActivatedRoute
   ) {
     this.route.data.subscribe(val => {
       const data = val['competition'].json();
@@ -49,7 +45,6 @@ export class CompetitionsComponent implements OnInit {
         this.saveCompetition(params['id']);
       }
     });
-
   }
 
   ngOnInit() {}

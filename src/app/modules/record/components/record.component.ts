@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { config } from '../../../configs/app.config';
 import { UserService } from '../services/user.service';
 
 @Component({

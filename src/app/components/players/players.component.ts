@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 @Component({
     selector: 'app-home',
@@ -10,7 +9,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 export class PlayersComponent implements OnInit {
     players = [];
 
-    constructor(private route: ActivatedRoute, private http: Http) {
+    constructor(private route: ActivatedRoute) {
         this.route.data.subscribe(val => {
             const data = val['players'].json();
             this.players = data.players;

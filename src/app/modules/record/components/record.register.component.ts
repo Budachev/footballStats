@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { LoginService } from '../services/login.service';
-import { config } from '../../../configs/app.config';
 
 @Component({
   template: `<div class="container row col-md-6 col-md-offset-3">
@@ -22,7 +20,10 @@ import { config } from '../../../configs/app.config';
         required>
       </div>
       <div *ngIf="usernameRef.dirty && usernameRef.errors?.required">This field is required</div>
-      <div *ngIf="usernameRef.dirty && usernameRef.errors?.minlength">This field must be longer than {{usernameRef.errors?.minlength.requiredLength}} characters. You only typed {{usernameRef.errors?.minlength.actualLength}}</div>
+      <div *ngIf="usernameRef.dirty && usernameRef.errors?.minlength">
+          This field must be longer than {{usernameRef.errors?.minlength.requiredLength}} characters. 
+          You only typed {{usernameRef.errors?.minlength.actualLength}}
+      </div>
         
       <div class="form-group">
         <label for="name">Eemail</label>
@@ -40,7 +41,7 @@ import { config } from '../../../configs/app.config';
       <a [routerLink]="['/record/login']" [routerLinkActive]="['is-active']">Login</a>
     </form>
 </div>`,
- styles:[`
+ styles: [`
   form.ng-dirty .ng-invalid{
       border: 1px solid red;
   }

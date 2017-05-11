@@ -12,7 +12,7 @@ export class NavComponent implements OnInit, OnDestroy {
   globalListenFunc: Function = null;
   competitions = [];
 
-  constructor(elementRef: ElementRef, renderer: Renderer, private competitionsService: CompetitionsService) {
+  constructor(renderer: Renderer, private competitionsService: CompetitionsService) {
     this.globalListenFunc = renderer.listenGlobal('document', 'click', (event) => {
       if (this.sideNavOpen === true && event.target.innerHTML !== 'open menu' && event.srcElement.localName !== 'aside') {
         this.closeSideNav();
@@ -25,7 +25,7 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Removs "listenGlobal" listener
+    // Removes "listenGlobal" listener
     this.globalListenFunc();
   }
 

@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, ActivatedRoute, Router, RouterStateSnapshot } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { TeamsService } from '../services/teams.service';
 
 @Injectable()
 export class TeamsResolver implements Resolve<any> {
-  constructor(
-    private teamService: TeamsService,
-    private route: ActivatedRoute,
-  ) { }
+  constructor( private teamService: TeamsService ) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     let id = route.params['id'];

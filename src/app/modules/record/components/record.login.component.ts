@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 
-import { config } from '../../../configs/app.config';
 
 @Component({
   template: `<div class="container row col-md-6 col-md-offset-3">
@@ -25,7 +22,6 @@ import { config } from '../../../configs/app.config';
 </div>`,
 })
 export class RecordLoginComponent {
-  heroForm: FormGroup;
   username = '';
   password = '';
   error = '';

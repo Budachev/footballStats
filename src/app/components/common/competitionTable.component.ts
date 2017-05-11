@@ -7,13 +7,14 @@ import { CompetitionsService } from '../../services/competitions.service';
     styleUrls: ['./competitionTable.component.scss']
 })
 export class CompetitionTableComponent implements OnInit {
-    constructor(private competitionsService: CompetitionsService) { }
-    @Input() table: any;
-    @Input() data: any;
-    @Input() hl: any;
     selectedMatchDay = [];
     selectedDay: any;
     dayOptions = [];
+    @Input() table: any;
+    @Input() data: any;
+    @Input() hl: any;
+
+    constructor(private competitionsService: CompetitionsService) { }
 
     isHighlighted(id) {
         if (this.hl) {

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, ActivatedRoute, Router, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { CompetitionsService } from '../services/competitions.service';
 
 @Injectable()
