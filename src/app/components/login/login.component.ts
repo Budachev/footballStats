@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from '../services/login.service';
-
+import { LoginService } from '../../services/login.service';
 
 @Component({
   template: `<div class="container row col-md-6 col-md-offset-3">
@@ -17,11 +16,11 @@ import { LoginService } from '../services/login.service';
         <input type="password" class="form-control" name="password" [(ngModel)]="password" required>
       </div>
       <button type="submit" class="btn btn-success">Login</button> or
-      <a [routerLink]="['/record/register']" [routerLinkActive]="['is-active']">Register</a>
+      <a [routerLink]="['/register']" [routerLinkActive]="['is-active']">Register</a>
     </form>
 </div>`,
 })
-export class RecordLoginComponent {
+export class LoginComponent {
   username = '';
   password = '';
   error = '';

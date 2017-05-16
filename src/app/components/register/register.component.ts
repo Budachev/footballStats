@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { LoginService } from '../services/login.service';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   template: `<div class="container row col-md-6 col-md-offset-3">
@@ -38,7 +38,7 @@ import { LoginService } from '../services/login.service';
         <input type="password" class="form-control" name="repeatPassword" [(ngModel)]="userModel.repeatPassword" required>
       </div>
       <button type="submit" [disabled]="formRef.invalid" class="btn btn-success">Register</button> or
-      <a [routerLink]="['/record/login']" [routerLinkActive]="['is-active']">Login</a>
+      <a [routerLink]="['/login']" [routerLinkActive]="['is-active']">Login</a>
     </form>
 </div>`,
  styles: [`
@@ -47,7 +47,7 @@ import { LoginService } from '../services/login.service';
   }
 `],
 })
-export class RecordRegisterComponent {
+export class RegisterComponent {
   error = '';
   userModel = {
     username: '',

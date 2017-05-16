@@ -4,6 +4,8 @@ import { HomeComponent } from '../components/home/home.component';
 import { CompetitionsComponent } from '../components/competitions/competitions.component';
 import { TeamsComponent } from '../components/teams/teams.component';
 import { PlayersComponent } from '../components/players/players.component';
+import { LoginComponent } from '../components/login/login.component';
+import { RegisterComponent } from '../components/register/register.component';
 
 import { CompetitionsResolver, CompetitionsFixturesResolver } from '../resolvers/competitions.resolver';
 import { TeamsResolver } from '../resolvers/teams.resolver';
@@ -51,6 +53,8 @@ const APP_ROUTES: Routes = [
         }
     },
     { path: 'record', loadChildren: 'app/modules/record/record.module#RecordModule' },
+    { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
     {
         path: '**',
         redirectTo: '/home',
