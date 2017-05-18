@@ -123,6 +123,31 @@ app.post('/login', (req, res) => {
     });
 });
 
+app.post('/login/social', (req, res) => {
+    let instance = axios.create({
+      baseURL: 'https://www.linkedin.com/oauth/v2',
+      headers: {
+       "Access-Control-Allow-Origin": "https://www.linkedin.com"
+      }
+    });
+    instance.post('/accessToken', req.body.body)
+      .then(function(data){
+        let instance2 = axios.create({
+          baseURL: 'https://api.linkedin.com/v1/',
+          headers: { "Authorization": `Bearer ${data.data.access_token}` }
+        });
+
+        instance2.get('people/~?format=json').then(data => {
+          res.json(data.data);
+        })
+        
+      })
+      .catch((err) => {
+       console.log(err)
+    });
+
+});
+
 /* POST to Add User Service */
 app.post('/register', function(req, res) {
     // Set our internal DB variable

@@ -1,3 +1,9 @@
+<header class="row" *ngIf="user">
+  <span class="col-md-offset-9 col-sm-2">Hello, {{user.username}}</span>
+  <span class="col-sm-1">
+    <button (click)="logout()">Logout</button>
+  </span>
+</header>
 <aside [class.open]="sideNavOpen">
   <button (click)="closeSideNav()">close</button>
   <div *ngIf="competitions.length">
