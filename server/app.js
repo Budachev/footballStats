@@ -13,6 +13,8 @@ const User        = require('./models/user'); // get our mongoose model
 const monk        = require('monk');
 const token       = config.apiKey;
 
+const loginSocial = require('./routes/login.social');
+
 let competitionsData;
 
 // mongoose.connect(config.database); 
@@ -96,7 +98,6 @@ app.get('/users', function (req, res) {
     }    
 });
 
-
 /* POST to Add User Service */
 app.post('/login', (req, res) => {
     // Set our internal DB variable
@@ -110,7 +111,7 @@ app.post('/login', (req, res) => {
     // Set our collection
     let collection = db.get('usercollection');
 
-    collection.findOne( { username: userName },{},(err, user) => {
+    collection.findOne( { username: userName }, {}, (err, user) => {
         if (err) throw err;
         if ( user.password === password ){
           let token = jwt.sign(user, app.get('secretKey'));
@@ -123,30 +124,7 @@ app.post('/login', (req, res) => {
     });
 });
 
-app.post('/login/social', (req, res) => {
-    let instance = axios.create({
-      baseURL: 'https://www.linkedin.com/oauth/v2',
-      headers: {
-       "Access-Control-Allow-Origin": "https://www.linkedin.com"
-      }
-    });
-    instance.post('/accessToken', req.body.body)
-      .then(function(data){
-        let instance2 = axios.create({
-          baseURL: 'https://api.linkedin.com/v1/',
-          headers: { "Authorization": `Bearer ${data.data.access_token}` }
-        });
-
-        instance2.get('people/~?format=json').then(data => {
-          res.json(data.data);
-        })
-        
-      })
-      .catch((err) => {
-       console.log(err)
-    });
-
-});
+app.post('/login/social', loginSocial);
 
 /* POST to Add User Service */
 app.post('/register', function(req, res) {
