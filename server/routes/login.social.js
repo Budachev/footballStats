@@ -11,7 +11,6 @@ module.exports = function (req, res) {
        "Access-Control-Allow-Origin": "https://www.linkedin.com"
       }
     });
-
     
     instance.post('/accessToken', req.body.body)
       .then(function(data){
@@ -21,20 +20,28 @@ module.exports = function (req, res) {
         });
 
         linkedinAPI.get('people/~?format=json').then(data => {
-        collection.findOne( { username: data.data.firstName }, {}, (err, user) => {
-          if (err) throw err;
+          collection.findOne( { username: data.data.firstName }, {}, (err, user) => {
+            if (err) throw err;
 
-          if( user ){
-            res.status(400);
-            res.send(`User with name ${userName} already exists.`);
-          } else {
-            console.log('You can add user');
-            
-            let token = jwt.sign(data.data, 'broodWar');
-            console.log(token);
-            data.data.token = token;
-          }
-        });
+            if( user ){
+              res.status(400);
+              res.send(`User with name ${userName} already exists.`);
+            } else {
+              collection.insert({
+                "username": data.data.firstName,
+                "email": 'userEmail',
+                "password": 'test',
+              }, function (err, doc) {
+                if (err) {
+                  res.send("There was a problem adding the information to the database.");
+                } else {
+                  let token = jwt.sign(data.data, 'broodWar');
+                  data.data.token = token;
+                  res.json(doc);
+                }
+              });
+            }
+          });
 
           res.json(data.data);
         })
